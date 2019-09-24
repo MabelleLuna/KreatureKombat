@@ -116,11 +116,15 @@ public:
 			unlink(ppmname);
 	}
 };
-Image img[4] = {
+Image img[8] = {
 "./images/bigfoot.png",
 "./images/forest.png",
 "./images/forestTrans.png",
 "./images/umbrella.png",
+"./images/turtleResized.jpg",
+"./images/trash.jpg",
+"./images/cato.jpg",
+""
 };
 //./images/mabelleC.png
 
@@ -297,7 +301,9 @@ int checkKeys(XEvent *e);
 void init();
 void physics(void);
 void render(void);
-
+void writeStoryText(const char*);
+void showBradCredits();
+void drawCredits();
 
 int main()
 {
@@ -1001,6 +1007,10 @@ void render()
 	ggprint8b(&r, 16, c, "R - Rain");
 	ggprint8b(&r, 16, c, "D - Deflection");
 	ggprint8b(&r, 16, c, "N - Sounds");
+
+	drawCredits();
+	showBradCredits();
+	writeStoryText("This is some text");
 }
 
 void drawCredits()
@@ -1015,5 +1025,8 @@ void drawCredits()
 
     float offset = 0.18f;
     mabelleC((gl->xres/2 - 300), gl->yres * (1 - offset), gl->textures[0]);
+
+	writeStoryText("This is some text");
+	showBradCredits();
 
 }
