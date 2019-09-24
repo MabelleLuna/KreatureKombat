@@ -1030,7 +1030,7 @@ void drawCredits()
     float offset = 0.18f;
     mabelleC((gl->xres/2 - 300), gl->yres * (1 - offset), gl->textures[0]);
 
-    writeStoryText("This is some text");
+    //writeStoryText("This is some text");
     showBradCredits();
 
 }
