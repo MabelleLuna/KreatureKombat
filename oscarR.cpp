@@ -13,12 +13,11 @@
 #include <GL/glx.h>
 #include "log.h"
 #include "fonts.h"
-void oscarCredits ()
-{
-	Rect b;
-
-	b.bot = 400;
-	b.left = 150;
-	b.center = 0; 
-	ggprint8b(&b, 16, 0xFFFFFFFF, "Oscar Rodriguez");
+void showOscarCredits ()
+{ 
+        Rect o;
+	o.bot = 355;
+	o.left = 150;
+	o.center = 0;
+	ggprint8b(&o, 16, 0x0, "Oscar Rodriguez");
 }
