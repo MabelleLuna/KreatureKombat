@@ -304,6 +304,7 @@ void physics(void);
 void render(void);
 void writeStoryText(const char*);
 void showBradCredits();
+void showLoganCredits();
 void drawCredits();
 
 int main()
@@ -1032,5 +1033,5 @@ void drawCredits()
 
     writeStoryText("This is some text");
     showBradCredits();
-
+    showLoganCredits();
 }

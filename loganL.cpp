@@ -14,8 +14,8 @@
 void showLoganCredits ()
 {
 	Rect l;
-	l.bot = 250;
+	l.bot = 370;
 	l.left = 150;
 	l.center = 0;
-	ggprint8b(&l, 16, 0xFFFFFFFF, "Logan Lovett");
+	ggprint8b(&l, 16, 0x0, "Logan Lovett");
 }
