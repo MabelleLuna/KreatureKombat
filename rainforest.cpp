@@ -120,12 +120,17 @@ Image img[4] = {
 "./images/bigfoot.png",
 "./images/forest.png",
 "./images/forestTrans.png",
-"./images/umbrella.png" };
+"./images/umbrella.png",
+};
+//./images/mabelleC.png
+
 
 class Global {
 public:
 	int done;
 	int xres, yres;
+	bool showCredits;
+	GLuint textures[5];
 	GLuint bigfootTexture;
 	GLuint silhouetteTexture;
 	GLuint forestTexture;
@@ -150,11 +155,22 @@ public:
 		showRain=0;
 		showUmbrella=0;
 		deflection=0;
+		showCredits = false;
 	}
+	static Global *instance;
+	static Global *getInstance(){
+		if (!instance) {
+		    instance = new Global;
+		}
+		return instance;
+	}
+
 	~Global() {
 		logClose();
 	}
 } g;
+Global *Global::instance = 0;
+Global *gl = gl->getInstance();
 
 class Bigfoot {
 public:
@@ -541,6 +557,9 @@ int checkKeys(XEvent *e)
 			if (g.showBigfoot) {
 				bigfoot.pos[0] = -250.0;
 			}
+			break;
+		case XK_c:
+			g.showCredits ^= 1;
 			break;
 		case XK_d:
 			g.deflection ^= 1;
@@ -984,3 +1003,17 @@ void render()
 	ggprint8b(&r, 16, c, "N - Sounds");
 }
 
+void drawCredits()
+{
+    extern void mabelleC(int, int, GLuint);
+    glClear(GL_COLOR_BUFFER_BIT);
+    Rect rcred;
+    rcred.bot = gl->yres * 0.95f;
+    rcred.left = gl->xres/2;
+    rcred.center = 0;
+    ggprint16(&rcred, 16, 0x00ffff00, "Credits");
+
+    float offset = 0.18f;
+    mabelleC((gl->xres/2 - 300), gl->yres * (1 - offset), gl->textures[0]);
+
+}
