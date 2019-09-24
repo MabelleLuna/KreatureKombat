@@ -1009,8 +1009,8 @@ void render()
 	ggprint8b(&r, 16, c, "N - Sounds");
 
 	drawCredits();
-	showBradCredits();
-	writeStoryText("This is some text");
+	//showBradCredits();
+	//writeStoryText("This is some text");
 }
 
 void drawCredits()
