@@ -73,12 +73,12 @@ void writeStoryText(const char* storyTextFileName)
 
 }
 
-void showBradCredits ()
+void showBradCredits()
 {
 	Rect b;
 
-	b.bot = 500;
+	b.bot = 400;
 	b.left = 150;
 	b.center = 0;
-	ggprint8b(&b, 16, 0xFFFFFFFF, "Brad Atkin");
+	ggprint8b(&b, 16, 0x0, "Brad Atkin");
 }

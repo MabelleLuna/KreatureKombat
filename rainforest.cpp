@@ -1008,6 +1008,7 @@ void render()
 	ggprint8b(&r, 16, c, "R - Rain");
 	ggprint8b(&r, 16, c, "D - Deflection");
 	ggprint8b(&r, 16, c, "N - Sounds");
+	ggprint8b(&r, 16, c, "C - Credits");
 
 	//drawCredits();
 
