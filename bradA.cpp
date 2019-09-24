@@ -78,7 +78,7 @@ void showBradCredits ()
 	Rect b;
 
 	b.bot = 500;
-	b.left 150;
+	b.left = 150;
 	b.center = 0;
-	ggprint8b(&b, 16, 0xFFFFFFFF, "Brad Atkin")
+	ggprint8b(&b, 16, 0xFFFFFFFF, "Brad Atkin");
 }
