@@ -19,6 +19,6 @@ void oscarCredits ()
 
 	b.bot = 700;
 	b.left 150;
-	b.center = 0;
-	ggprint8b(&b, 16, 0xFFFFFFFF, "NOT Brad Atkin")
+	b.center = 0; 
+	ggprint8b(&b, 16, 0xFFFFFFFF, "Oscar Rodriguez")
 }
