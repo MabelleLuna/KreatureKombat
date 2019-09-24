@@ -1011,7 +1011,7 @@ void render()
 	ggprint8b(&r, 16, c, "N - Sounds");
 	ggprint8b(&r, 16, c, "C - Credits");
 
-	if (gl->showCredits){
+	if (g.showCredits){
 	    drawCredits();
 	}
 
