@@ -121,12 +121,13 @@ Image img[8] = {
 "./images/forest.png",
 "./images/forestTrans.png",
 "./images/umbrella.png",
-"./images/turtleResized.jpg",
-"./images/trash.jpg",
-"./images/cato.jpg",
+"./images/turtleResized.png",
+"./images/trash.png",
+"./images/cato.png",
+"./images/mabelleC.png"
 ""
 };
-//./images/mabelleC.png
+
 
 
 class Global {
@@ -1008,9 +1009,8 @@ void render()
 	ggprint8b(&r, 16, c, "D - Deflection");
 	ggprint8b(&r, 16, c, "N - Sounds");
 
-	drawCredits();
-	//showBradCredits();
-	//writeStoryText("This is some text");
+	//drawCredits();
+
 }
 
 void drawCredits()
