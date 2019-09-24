@@ -567,6 +567,7 @@ int checkKeys(XEvent *e)
 			break;
 		case XK_c:
 			g.showCredits ^= 1;
+			drawCredits();
 			break;
 		case XK_d:
 			g.deflection ^= 1;
@@ -1009,7 +1010,9 @@ void render()
 	ggprint8b(&r, 16, c, "D - Deflection");
 	ggprint8b(&r, 16, c, "N - Sounds");
 
-	//drawCredits();
+	if (gl->showCredits){
+	    drawCredits();
+	}
 
 }
 
@@ -1026,7 +1029,7 @@ void drawCredits()
     float offset = 0.18f;
     mabelleC((gl->xres/2 - 300), gl->yres * (1 - offset), gl->textures[0]);
 
-	writeStoryText("This is some text");
-	showBradCredits();
+    writeStoryText("This is some text");
+    showBradCredits();
 
 }
