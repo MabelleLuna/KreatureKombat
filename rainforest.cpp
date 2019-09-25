@@ -119,7 +119,7 @@ public:
 };
 Image img[8] = {
 "./images/bigfoot.png",
-"./images/forest.png",
+"./images/background.png",
 "./images/forestTrans.png",
 "./images/umbrella.png",
 "./images/turtleResized.png",
@@ -140,13 +140,13 @@ public:
 	GLuint textures[5];
 	GLuint bigfootTexture;
 	GLuint silhouetteTexture;
-	GLuint forestTexture;
+	GLuint backgroundTexture;
 	GLuint forestTransTexture;
 	GLuint umbrellaTexture;
 	GLuint bradImgTexture;
 	GLuint trashTexture;
 	int showBigfoot;
-	int forest;
+	int background;
 	int silhouette;
 	int trees;
 	int showRain;
@@ -158,7 +158,7 @@ public:
 		xres=800;
 		yres=600;
 		showBigfoot=0;
-		forest=1;
+		background=1;
 		silhouette=1;
 		trees=1;
 		showRain=0;
@@ -429,7 +429,7 @@ void initOpengl(void)
 	//create opengl texture elements
 	glGenTextures(1, &g.bigfootTexture);
 	glGenTextures(1, &g.silhouetteTexture);
-	glGenTextures(1, &g.forestTexture);
+	glGenTextures(1, &g.backgroundTexture);
 	glGenTextures(1, &g.umbrellaTexture);
 	glGenTextures(1, &g.bradImgTexture);
 	glGenTextures(1, &g.trashTexture);
@@ -501,8 +501,8 @@ void initOpengl(void)
 	//	GL_RGB, GL_UNSIGNED_BYTE, bigfootImage->data);
 	//-------------------------------------------------------------------------
 	//
-	//forest
-	glBindTexture(GL_TEXTURE_2D, g.forestTexture);
+	//background
+	glBindTexture(GL_TEXTURE_2D, g.backgroundTexture);
 	//
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
@@ -603,7 +603,7 @@ int checkKeys(XEvent *e)
 			g.deflection ^= 1;
 			break;
 		case XK_f:
-			g.forest ^= 1;
+			g.background ^= 1;
 			break;
 		case XK_s:
 			g.silhouette ^= 1;
@@ -963,8 +963,8 @@ void render()
 	//draw a quad with texture
 	float wid = 120.0f;
 	glColor3f(1.0, 1.0, 1.0);
-	if (g.forest) {
-		glBindTexture(GL_TEXTURE_2D, g.forestTexture);
+	if (g.background) {
+		glBindTexture(GL_TEXTURE_2D, g.backgroundTexture);
 		glBegin(GL_QUADS);
 			glTexCoord2f(0.0f, 1.0f); glVertex2i(0, 0);
 			glTexCoord2f(0.0f, 0.0f); glVertex2i(0, g.yres);
@@ -1036,7 +1036,7 @@ void render()
 	r.left = 10;
 	r.center = 0;
 	ggprint8b(&r, 16, c, "B - Bigfoot");
-	ggprint8b(&r, 16, c, "F - Forest");
+	ggprint8b(&r, 16, c, "F - Background");
 	ggprint8b(&r, 16, c, "S - Silhouette");
 	ggprint8b(&r, 16, c, "T - Trees");
 	ggprint8b(&r, 16, c, "U - Umbrella");
