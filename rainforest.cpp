@@ -141,6 +141,7 @@ public:
 	GLuint forestTexture;
 	GLuint forestTransTexture;
 	GLuint umbrellaTexture;
+	GLuint bradImgTexture;
 	int showBigfoot;
 	int forest;
 	int silhouette;
@@ -303,7 +304,7 @@ void init();
 void physics(void);
 void render(void);
 void writeStoryText(const char*);
-void showBradCredits();
+void showBradCredits(int, int, GLuint);
 void showLoganCredits();
 void showOscarCredits();
 void drawCredits();
@@ -426,6 +427,7 @@ void initOpengl(void)
 	glGenTextures(1, &g.silhouetteTexture);
 	glGenTextures(1, &g.forestTexture);
 	glGenTextures(1, &g.umbrellaTexture);
+	glGenTextures(1, &g.bradImgTexture);
 	//-------------------------------------------------------------------------
 	//bigfoot
 	//
@@ -439,6 +441,15 @@ void initOpengl(void)
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0,
 		GL_RGB, GL_UNSIGNED_BYTE, img[0].data);
 	//-------------------------------------------------------------------------
+	//brad's img
+	int w1 = img[4].width;
+	int h2 = img[4].height;
+	glBindTexture(GL_TEXTURE_2D, g.bradImgTexture);
+	//
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, 3, w1, h2, 0,
+		GL_RGB, GL_UNSIGNED_BYTE, img[4].data);
 	//
 	//silhouette
 	//this is similar to a sprite graphic
@@ -944,7 +955,7 @@ void render()
 		glPushMatrix();
 		glTranslatef(bigfoot.pos[0], bigfoot.pos[1], bigfoot.pos[2]);
 		if (!g.silhouette) {
-			glBindTexture(GL_TEXTURE_2D, g.bigfootTexture);
+			glBindTexture(GL_TEXTURE_2D, g.bigfootTexture);			
 		} else {
 			glBindTexture(GL_TEXTURE_2D, g.silhouetteTexture);
 			glEnable(GL_ALPHA_TEST);
@@ -1033,7 +1044,7 @@ void drawCredits()
     mabelleC((gl->xres/2 - 300), gl->yres * (1 - offset), gl->textures[0]);
 
     //writeStoryText("This is some text");
-    showBradCredits();
+    showBradCredits(400,400, g.bradImgTexture);
     showLoganCredits();
     showOscarCredits();
 }
