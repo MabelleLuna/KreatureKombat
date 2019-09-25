@@ -1,0 +1,18 @@
+*cutscene* fade in from black
+*cutscene* go to pound
+>choose fighter
+>cat / dog
+*cutscene* leave pound
+*cutscene* animal instict!!
+*cutscene* random animal attack
+>fight 1
+*cutscene* find note with attack instructions on animal
+*cutscene* clue leads to park
+>fight 2 at park
+*cutscene* 
+>fight 3
+*cutscene*
+>fight 4
+*cutscene*
+> final fight
+*closing cutscene*
