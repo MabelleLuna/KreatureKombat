@@ -7,10 +7,10 @@ void mabelleC(int x, int y, GLuint id)
     float wid = 120.0f;
 
     // Displays my name
-    r.bot = y;
-    r.left = x + 90;
+    r.bot = 150;
+    r.left = 150;
     r.center = 0;
-    ggprint16(&r, 16, 0x00ffff00, "Mabelle Cruz");
+    ggprint16(&r, 16, 0x0, "Mabelle Cruz");
     //                  // Displays my picture
     glColor3ub(255, 255, 255);
     glPushMatrix();
