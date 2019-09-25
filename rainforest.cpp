@@ -1,7 +1,8 @@
 //3350
 //program: rainforest.cpp
 //author:  Gordon Griesel
-//date:    2013 to 2018
+//Modified by the KreatureKombat Team
+//date:    2019
 //
 //This program demonstrates the use of OpenGL and XWindows
 //
@@ -143,6 +144,7 @@ public:
 	GLuint forestTransTexture;
 	GLuint umbrellaTexture;
 	GLuint bradImgTexture;
+	GLuint trashTexture;
 	int showBigfoot;
 	int forest;
 	int silhouette;
@@ -307,7 +309,7 @@ void physics(void);
 void render(void);
 void writeStoryText(const char*);
 void showBradCredits(int, int, GLuint);
-void showLoganCredits();
+void showLoganCredits(int, int, GLuint);
 void showOscarCredits();
 void drawCredits();
 
@@ -430,6 +432,7 @@ void initOpengl(void)
 	glGenTextures(1, &g.forestTexture);
 	glGenTextures(1, &g.umbrellaTexture);
 	glGenTextures(1, &g.bradImgTexture);
+	glGenTextures(1, &g.trashTexture);
 	//-------------------------------------------------------------------------
 	//bigfoot
 	//
@@ -453,6 +456,18 @@ void initOpengl(void)
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, w1, h2, 0,
 		GL_RGB, GL_UNSIGNED_BYTE, img[4].data);
 	//
+	
+	//logan's img
+	int w2 = img[5].width;
+	int h3 = img[5].height;
+	glBindTexture(GL_TEXTURE_2D, g.trashTexture);
+	//
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, 3, w2, h3, 0,
+		GL_RGB, GL_UNSIGNED_BYTE, img[5].data);	
+	//
+	
 	//silhouette
 	//this is similar to a sprite graphic
 	//
@@ -1054,6 +1069,6 @@ void drawCredits()
     mabelleC((gl->xres/2 - 300), gl->yres * (1 - offset), gl->textures[0]);
 
     showBradCredits(400,400, g.bradImgTexture);
-    showLoganCredits();
+    showLoganCredits(400,300,g.trashTexture);
     showOscarCredits();
 }
