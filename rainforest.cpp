@@ -145,6 +145,7 @@ public:
 	GLuint umbrellaTexture;
 	GLuint bradImgTexture;
 	GLuint trashTexture;
+	GLuint catTexture;
 	int showBigfoot;
 	int background;
 	int silhouette;
@@ -310,7 +311,7 @@ void render(void);
 void writeStoryText(const char*);
 void showBradCredits(int, int, GLuint);
 void showLoganCredits(int, int, GLuint);
-void showOscarCredits();
+void showOscarCredits(int, int, GLuint);
 void drawCredits();
 
 int main()
@@ -433,6 +434,7 @@ void initOpengl(void)
 	glGenTextures(1, &g.umbrellaTexture);
 	glGenTextures(1, &g.bradImgTexture);
 	glGenTextures(1, &g.trashTexture);
+	glGenTextures(1, &g.catTexture);
 	//-------------------------------------------------------------------------
 	//bigfoot
 	//
@@ -450,7 +452,6 @@ void initOpengl(void)
 	int w1 = img[4].width;
 	int h2 = img[4].height;
 	glBindTexture(GL_TEXTURE_2D, g.bradImgTexture);
-	//
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, w1, h2, 0,
@@ -461,12 +462,20 @@ void initOpengl(void)
 	int w2 = img[5].width;
 	int h3 = img[5].height;
 	glBindTexture(GL_TEXTURE_2D, g.trashTexture);
-	//
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, w2, h3, 0,
 		GL_RGB, GL_UNSIGNED_BYTE, img[5].data);	
 	//
+	// Oscar's cat image
+	
+	int w6 = img[6].width;
+	int h6 = img[6].height;
+	glBindTexture(GL_TEXTURE_2D, g.catTexture);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, 3, w6, h6, 0,
+		GL_RGB, GL_UNSIGNED_BYTE, img[6].data);
 	
 	//silhouette
 	//this is similar to a sprite graphic
@@ -1070,5 +1079,5 @@ void drawCredits()
 
     showBradCredits(400,400, g.bradImgTexture);
     showLoganCredits(400,300,g.trashTexture);
-    showOscarCredits();
+    showOscarCredits(400,200,g.catTexture);
 }

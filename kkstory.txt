@@ -1,18 +1,18 @@
 *cutscene* fade in from black
 *cutscene* go to pound
->choose fighter
+>choose fighter (pet)
 >cat / dog
 *cutscene* leave pound
 *cutscene* animal instict!!
-*cutscene* random animal attack
+*cutscene* random animal attacks us
 >fight 1
 *cutscene* find note/clue on animal
 *cutscene* clue leads to park
 *cutscene* leave to park
 >fight 2 at park
-*cutscene* meet first boss
-*cutscene* "just following orders"
+*cutscene* meet mini boss at beach, Gordon
 *cutscene* "your pet is evil!"
+*cutscene* "just following orders"
 >fight 3
 *cutscene* something happens
 *cutscene* something happens
