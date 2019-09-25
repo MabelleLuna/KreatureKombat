@@ -6,13 +6,18 @@
 *cutscene* animal instict!!
 *cutscene* random animal attack
 >fight 1
-*cutscene* find note with attack instructions on animal
+*cutscene* find note/clue on animal
 *cutscene* clue leads to park
+*cutscene* leave to park
 >fight 2 at park
-*cutscene* 
+*cutscene* meet first boss
+*cutscene* "just following orders"
+*cutscene* "your pet is evil!"
 >fight 3
-*cutscene*
+*cutscene* something happens
+*cutscene* something happens
 >fight 4
-*cutscene*
+*cutscene* meet last boss, PETAh
 > final fight
-*closing cutscene*
+*cutscene* leave battle war-torn and broken down, but not defeated
+*closing cutscene* arriving to front door of home
