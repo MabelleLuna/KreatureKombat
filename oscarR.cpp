@@ -1,6 +1,8 @@
-//this is my file
-//i like files
-//Author: Oscar Rodriguez
+// Author: Oscar Rodriguez
+// CMPS3350
+// Professor: Gordon
+//
+//
 
 #include <stdio.h>
 #include <stdlib.h>
