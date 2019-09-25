@@ -135,6 +135,7 @@ public:
 	int done;
 	int xres, yres;
 	bool showCredits;
+	bool writeStoryText;
 	GLuint textures[5];
 	GLuint bigfootTexture;
 	GLuint silhouetteTexture;
@@ -162,6 +163,7 @@ public:
 		showUmbrella=0;
 		deflection=0;
 		showCredits = false;
+		writeStoryText = false;
 	}
 	static Global *instance;
 	static Global *getInstance(){
@@ -604,6 +606,10 @@ int checkKeys(XEvent *e)
 		case XK_r:
 			g.showRain ^= 1;
 			break;
+		case XK_q:
+			//writeStoryText("The story begins....");
+			g.writeStoryText ^= 1;
+			break;
 		case XK_Left:
 			VecCopy(umbrella.pos, umbrella.lastpos);
 			umbrella.pos[0] -= 10.0;
@@ -1023,11 +1029,15 @@ void render()
 	ggprint8b(&r, 16, c, "D - Deflection");
 	ggprint8b(&r, 16, c, "N - Sounds");
 	ggprint8b(&r, 16, c, "C - Credits");
+	ggprint8b(&r, 16, c, "Q - Story");
 
-	if (g.showCredits){
+	if (g.showCredits) {
 	    drawCredits();
 	}
 
+	if (g.writeStoryText) {
+		writeStoryText("The Story Begins...");
+	}
 }
 
 void drawCredits()
@@ -1043,7 +1053,6 @@ void drawCredits()
     float offset = 0.18f;
     mabelleC((gl->xres/2 - 300), gl->yres * (1 - offset), gl->textures[0]);
 
-    //writeStoryText("This is some text");
     showBradCredits(400,400, g.bradImgTexture);
     showLoganCredits();
     showOscarCredits();
