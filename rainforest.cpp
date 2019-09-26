@@ -146,6 +146,7 @@ public:
 	GLuint bradImgTexture;
 	GLuint trashTexture;
 	GLuint catTexture;
+	GLuint mabTexture;
 	int showBigfoot;
 	int background;
 	int silhouette;
@@ -435,6 +436,7 @@ void initOpengl(void)
 	glGenTextures(1, &g.bradImgTexture);
 	glGenTextures(1, &g.trashTexture);
 	glGenTextures(1, &g.catTexture);
+	glGenTextures(1, &g.mabTexture);
 	//-------------------------------------------------------------------------
 	//bigfoot
 	//
@@ -448,7 +450,7 @@ void initOpengl(void)
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0,
 		GL_RGB, GL_UNSIGNED_BYTE, img[0].data);
 	//-------------------------------------------------------------------------
-	//brad's img
+	//Brad's img
 	int w1 = img[4].width;
 	int h2 = img[4].height;
 	glBindTexture(GL_TEXTURE_2D, g.bradImgTexture);
@@ -456,9 +458,8 @@ void initOpengl(void)
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, w1, h2, 0,
 		GL_RGB, GL_UNSIGNED_BYTE, img[4].data);
-	//
 	
-	//logan's img
+	//Logan's img
 	int w2 = img[5].width;
 	int h3 = img[5].height;
 	glBindTexture(GL_TEXTURE_2D, g.trashTexture);
@@ -466,9 +467,8 @@ void initOpengl(void)
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, w2, h3, 0,
 		GL_RGB, GL_UNSIGNED_BYTE, img[5].data);	
-	//
-	// Oscar's cat image
 	
+	//Oscar's cat image
 	int w6 = img[6].width;
 	int h6 = img[6].height;
 	glBindTexture(GL_TEXTURE_2D, g.catTexture);
@@ -476,6 +476,15 @@ void initOpengl(void)
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, w6, h6, 0,
 		GL_RGB, GL_UNSIGNED_BYTE, img[6].data);
+	
+	//Mabelle's Credits IMG
+	int imgw = img[7].width;
+	int imgh = img[7].height;
+	glBindTexture(GL_TEXTURE_2D, g.mabTexture);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, 3, imgw, imgh, 0,
+		GL_RGB, GL_UNSIGNED_BYTE, img[7].data);
 	
 	//silhouette
 	//this is similar to a sprite graphic
@@ -1066,7 +1075,7 @@ void render()
 
 void drawCredits()
 {
-    extern void mabelleC(int, int, GLuint);
+    extern void showMabelleCredits(int, int, GLuint);
     glClear(GL_COLOR_BUFFER_BIT);
     Rect rcred;
     rcred.bot = gl->yres * 0.95f;
@@ -1075,9 +1084,10 @@ void drawCredits()
     ggprint16(&rcred, 16, 0x00ffff00, "Credits");
 
     float offset = 0.18f;
-    mabelleC((gl->xres/2 - 300), gl->yres * (1 - offset), gl->textures[0]);
+    showMabelleCredits((gl->xres/2 - 300), gl->yres * (1 - offset), gl->textures[0]);
 
     showBradCredits(400,400, g.bradImgTexture);
     showLoganCredits(400,300,g.trashTexture);
     showOscarCredits(400,200,g.catTexture);
+    showMabelleCredits(400,90,g.mabTexture);
 }
