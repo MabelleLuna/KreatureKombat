@@ -1078,10 +1078,10 @@ void drawCredits()
     extern void showMabelleCredits(int, int, GLuint);
     glClear(GL_COLOR_BUFFER_BIT);
     Rect rcred;
-    rcred.bot = gl->yres * 0.95f;
-    rcred.left = gl->xres/2;
+    rcred.bot = gl->yres * 0.75f;
+    rcred.left = gl->xres/2.8;
     rcred.center = 0;
-    ggprint16(&rcred, 16, 0x00ffff00, "Credits");
+    ggprint16(&rcred, 16, 0x0000ff00, "Credits");
 
     float offset = 0.18f;
     showMabelleCredits((gl->xres/2 - 300), gl->yres * (1 - offset), gl->textures[0]);
