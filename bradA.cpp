@@ -1,21 +1,13 @@
-//Author: 	 Brad Atkin
-//Last Modified: 2019/09/17
-//
+//Author:			Brad Atkin
+//Last Modified:	2019/09/26
+//Filename:			bradA.cpp
+//Description:		Contains functions written by Brad for the Kreature Kombat game
 
-//#include <stdio.h>
-//#include <stdlib.h>
-//#include <string.h>
-//#include <unistd.h>
-//#include <time.h>
 #include <math.h>
 #include <X11/Xlib.h>
-//#include <X11/Xutil.h>
-//#include <GL/gl.h>
-//#include <GL/glu.h>
 #include <X11/keysym.h>
 #include <GL/glx.h>
 #include "log.h"
-//#include "ppm.h"
 #include "fonts.h"
 #include <fstream>
 #include <string>
