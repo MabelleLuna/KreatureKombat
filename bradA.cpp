@@ -90,8 +90,8 @@ void showBradCredits(int x, int y, GLuint id)
 	b.bot = 400;
 	b.left = 150;
 	b.center = 0;
-	ggprint8b(&b, 16, 0x0, "Credits:");
-	ggprint8b(&b, 16, 0x0, "Brad Atkin");
+	//ggprint8b(&b, 16, 0x0, "Credits:");
+	ggprint16(&b, 16, 0x0, "Brad Atkin");
 
 	float wid = 100.0f;
 	glColor3ub(255, 255, 255);
