@@ -2,11 +2,11 @@
 //Last Modified: 2019/09/17
 //
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <time.h>
+//#include <stdio.h>
+//#include <stdlib.h>
+//#include <string.h>
+//#include <unistd.h>
+//#include <time.h>
 #include <math.h>
 #include <X11/Xlib.h>
 //#include <X11/Xutil.h>
@@ -17,6 +17,11 @@
 #include "log.h"
 //#include "ppm.h"
 #include "fonts.h"
+#include <fstream>
+#include <string>
+
+using namespace std;
+
 
 struct Vect {
 	float x, y, z;
@@ -39,8 +44,6 @@ public:
 
 void writeStoryText(const char* storyTextFileName) 
 {
-	const char* fileContent = storyTextFileName;
-
 	Shape s1;
 	glColor3ub(225,225,225);
 	s1 = gB.box;
@@ -69,7 +72,22 @@ void writeStoryText(const char* storyTextFileName)
 	b.bot =  100;
 	b.left = 120;
 	b.center = 0;
-	ggprint8b(&b, 16, f, fileContent);
+
+	//const char* fileContent = storyTextFileName;
+
+	ifstream file(storyTextFileName);
+	string str;
+	string file_contents;
+	
+	
+	while (getline(file, str)) {
+		file_contents = str;
+		file_contents.push_back('\n');
+		const char* fileContent = file_contents.c_str();
+		ggprint8b(&b, 16, f, fileContent);
+	} 
+
+
 
 }
 

@@ -129,7 +129,7 @@ Image img[8] = {
 ""
 };
 
-
+//const char* storyText = testTextFile.txt;
 
 class Global {
 public:
@@ -1069,7 +1069,7 @@ void render()
 	}
 
 	if (g.writeStoryText) {
-		writeStoryText("The Story Begins...");
+		writeStoryText("testTextFile.txt");
 	}
 }
 
