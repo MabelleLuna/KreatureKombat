@@ -1,5 +1,5 @@
 //Author:			Brad Atkin
-//Last Modified:	2019/09/26
+//Last Modified:	2019/09/27
 //Filename:			bradA.cpp
 //Description:		Contains functions written by Brad for the Kreature Kombat game
 
@@ -31,8 +31,6 @@ public:
 	Shape box;
 
 } gB;
-
-//void writeStoryText(string str);
 
 void writeStoryText(const char* storyTextFileName) 
 {
@@ -79,8 +77,6 @@ void writeStoryText(const char* storyTextFileName)
 		ggprint8b(&b, 16, f, fileContent);
 	} 
 
-
-
 }
 
 void showBradCredits(int x, int y, GLuint id)
@@ -95,14 +91,14 @@ void showBradCredits(int x, int y, GLuint id)
 
 	float wid = 100.0f;
 	glColor3ub(255, 255, 255);
-    glPushMatrix();
-    glTranslatef((float)x, (float)y, 0);
-    glBindTexture(GL_TEXTURE_2D, id);
-    glBegin(GL_QUADS);
-    glTexCoord2f(0.0f, 1.0f); glVertex2i(-wid/2, -wid/2);
-    glTexCoord2f(0.0f, 0.0f); glVertex2i(-wid/2,  wid/2);
-    glTexCoord2f(1.0f, 0.0f); glVertex2i( wid/2,  wid/2);
-    glTexCoord2f(1.0f, 1.0f); glVertex2i( wid/2, -wid/2);
-    glEnd();
-    glPopMatrix();
+	glPushMatrix();
+	glTranslatef((float)x, (float)y, 0);
+	glBindTexture(GL_TEXTURE_2D, id);
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0f, 1.0f); glVertex2i(-wid/2, -wid/2);
+	glTexCoord2f(0.0f, 0.0f); glVertex2i(-wid/2,  wid/2);
+	glTexCoord2f(1.0f, 0.0f); glVertex2i( wid/2,  wid/2);
+	glTexCoord2f(1.0f, 1.0f); glVertex2i( wid/2, -wid/2);
+	glEnd();
+	glPopMatrix();
 }

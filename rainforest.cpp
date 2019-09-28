@@ -137,6 +137,7 @@ public:
 	int xres, yres;
 	bool showCredits;
 	bool writeStoryText;
+	bool nextLine;
 	GLuint textures[5];
 	GLuint bigfootTexture;
 	GLuint silhouetteTexture;
@@ -643,6 +644,9 @@ int checkKeys(XEvent *e)
 			//writeStoryText("The story begins....");
 			g.writeStoryText ^= 1;
 			break;
+		case XK_Return:
+			g.nextLine ^= 1;
+			break;
 		case XK_Left:
 			VecCopy(umbrella.pos, umbrella.lastpos);
 			umbrella.pos[0] -= 10.0;
@@ -1065,29 +1069,30 @@ void render()
 	ggprint8b(&r, 16, c, "Q - Story");
 
 	if (g.showCredits) {
-	    drawCredits();
+		drawCredits();
 	}
 
 	if (g.writeStoryText) {
 		writeStoryText("testTextFile.txt");
 	}
+
 }
 
 void drawCredits()
 {
-    extern void showMabelleCredits(int, int, GLuint);
-    glClear(GL_COLOR_BUFFER_BIT);
-    Rect rcred;
-    rcred.bot = gl->yres * 0.75f;
-    rcred.left = gl->xres/2.8;
-    rcred.center = 0;
-    ggprint16(&rcred, 16, 0x0000ff00, "Credits");
+	extern void showMabelleCredits(int, int, GLuint);
+	glClear(GL_COLOR_BUFFER_BIT);
+	Rect rcred;
+	rcred.bot = gl->yres * 0.75f;
+	rcred.left = gl->xres/2.8;
+	rcred.center = 0;
+	ggprint16(&rcred, 16, 0x0000ff00, "Credits");
 
-    float offset = 0.18f;
-    showMabelleCredits((gl->xres/2 - 300), gl->yres * (1 - offset), gl->textures[0]);
+	float offset = 0.18f;
+	showMabelleCredits((gl->xres/2 - 300), gl->yres * (1 - offset), gl->textures[0]);
 
-    showBradCredits(400,400, g.bradImgTexture);
-    showLoganCredits(400,300,g.trashTexture);
-    showOscarCredits(400,200,g.catTexture);
-    showMabelleCredits(400,90,g.mabTexture);
+	showBradCredits(400,400, g.bradImgTexture);
+	showLoganCredits(400,300,g.trashTexture);
+	showOscarCredits(400,200,g.catTexture);
+	showMabelleCredits(400,90,g.mabTexture);
 }
