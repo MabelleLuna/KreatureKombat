@@ -19,10 +19,10 @@
 void showLoganCredits (int x, int y, GLuint id)
 {
 	Rect l;
-	l.bot = 370;
+	l.bot = 300;
 	l.left = 150;
 	l.center = 0;
-	ggprint8b(&l, 16, 0x0, "Logan Lovett");
+	ggprint16(&l, 16, 0x0, "Logan Lovett");
 	float wid = 100.0f;
 	glColor3ub(255, 255, 255);
     	glPushMatrix();
