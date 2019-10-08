@@ -102,3 +102,23 @@ void showBradCredits(int x, int y, GLuint id)
 	glEnd();
 	glPopMatrix();
 }
+
+void bradShowScore() {
+
+	Rect b;
+
+	b.bot =  400;
+	b.left = 240;
+	b.center = 0;
+
+	ifstream file("scoresFile.txt");
+	string str;
+	string file_contents;
+
+	while (getline(file, str)) {
+		file_contents = str;
+		file_contents.push_back('\n');
+		const char* fileContent = file_contents.c_str();
+		ggprint16(&b, 16, 0x00000000, fileContent);
+	} 
+}

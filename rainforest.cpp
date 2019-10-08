@@ -1114,6 +1114,7 @@ void drawCredits()
 
 void drawScores(){
     extern void showScores(int, int, GLuint);
+	void bradShowScore();
     glClear(GL_COLOR_BUFFER_BIT);
     Rect rcred;
     rcred.bot = gl->yres * 0.75f;
@@ -1123,5 +1124,5 @@ void drawScores(){
 
     float offset = 0.18f;
     showScores((gl->xres/2 - 300), gl->yres * (1 - offset), gl->textures[0]);
-
+	bradShowScore();
 }
