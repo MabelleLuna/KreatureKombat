@@ -2,7 +2,7 @@
 //  g++ readScores.cpp -Wall -oscores -lssl -lcrypto
 //  
 //Usage:
-//  ./temp
+//  ./readScores
 //
 //
 #include <stdio.h>
