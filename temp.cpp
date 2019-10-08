@@ -1,8 +1,8 @@
 //Build:
-//  gcc lab3sget.c -Wall -olab3sget -lssl -lcrypto
+//  g++ temp.cpp -Wall -otemp -lssl -lcrypto
 //  
 //Usage:
-//  ./lab3sget <host> <page>
+//  ./temp
 //
 //
 #include <stdio.h>
