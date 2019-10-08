@@ -27,6 +27,7 @@ const int MAX_READ_ERRORS = 100;
 
 int main(int argc, char *argv[]){
 	BIO *ssl_setup_bio(void);
+	void show_cert_data(SSL *ssl, BIO *outbio, const char *hostname);
 	void set_to_non_blocking(const int sock);
     int sd;
     struct hostent *host;
@@ -38,7 +39,7 @@ int main(int argc, char *argv[]){
     char req[1000];
     int req_len;
 	char hostname[256] = "odin.cs.csub.edu";
-	char pagename[256] = "/~llovett/3350/lab3/lab3.php";
+	char pagename[256] = "/~orodriguez/3350/highscore.php?param=highscore";
     int port = PORT;
     int bytes, nreads, nerrs;
     char buf[256];
@@ -65,6 +66,8 @@ int main(int argc, char *argv[]){
     ssl = SSL_new(ctx); 
     SSL_set_fd(ssl, sd);
     SSL_connect(ssl);
+    //Show the certificate data
+    show_cert_data(ssl, outbio, hostname);
 	//A non-blocking socket will make the ssl_read() not block.
 	set_to_non_blocking(sd);
 	//
@@ -122,6 +125,23 @@ BIO *ssl_setup_bio(void){
     bio = BIO_new_fp(stdout, BIO_NOCLOSE);
 	return bio;
 }
+
+//
+//
+//
+void show_cert_data(SSL *ssl, BIO *outbio, const char *hostname)
+{
+    X509 *cert;
+    X509_NAME *certname;
+    cert = SSL_get_peer_certificate(ssl);
+    certname = X509_NAME_new();
+    certname = X509_get_subject_name(cert);
+    X509_NAME_print_ex(outbio, certname, 0, 0);
+}
+//
+//
+//
+
 void set_to_non_blocking(const int sock){
 	//Set a socket to be non-blocking.
 	int opts;
