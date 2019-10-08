@@ -136,6 +136,7 @@ public:
 	int done;
 	int xres, yres;
 	bool showCredits;
+	bool showScores;
 	bool writeStoryText;
 	bool nextLine;
 	GLuint textures[5];
@@ -148,9 +149,11 @@ public:
 	GLuint trashTexture;
 	GLuint catTexture;
 	GLuint mabTexture;
+	GLuint scoreTexture;
 	int showBigfoot;
 	int background;
 	int silhouette;
+	int scores;
 	int trees;
 	int showRain;
 	int showUmbrella;
@@ -162,12 +165,14 @@ public:
 		yres=600;
 		showBigfoot=0;
 		background=1;
+		scores=1;
 		silhouette=1;
 		trees=1;
 		showRain=0;
 		showUmbrella=0;
 		deflection=0;
 		showCredits = false;
+		showScores = false;
 		writeStoryText = false;
 	}
 	static Global *instance;
@@ -315,6 +320,7 @@ void showBradCredits(int, int, GLuint);
 void showLoganCredits(int, int, GLuint);
 void showOscarCredits(int, int, GLuint);
 void drawCredits();
+void drawScores();
 
 int main()
 {
@@ -438,6 +444,7 @@ void initOpengl(void)
 	glGenTextures(1, &g.trashTexture);
 	glGenTextures(1, &g.catTexture);
 	glGenTextures(1, &g.mabTexture);
+	glGenTextures(1, &g.scoreTexture);
 	//-------------------------------------------------------------------------
 	//bigfoot
 	//
@@ -618,17 +625,22 @@ int checkKeys(XEvent *e)
 			g.showCredits ^= 1;
 			drawCredits();
 			break;
+		case XK_s:
+			g.showScores ^= 1;
+			printf("scores: %i\n", g.scores);
+			drawScores();
+			break;
 		case XK_d:
 			g.deflection ^= 1;
 			break;
 		case XK_f:
 			g.background ^= 1;
 			break;
-		case XK_s:
+		/*case XK_s:
 			g.silhouette ^= 1;
 			printf("silhouette: %i\n", g.silhouette);
 			break;
-		case XK_t:
+		*/case XK_t:
 			g.trees ^= 1;
 			break;
 		case XK_u:
@@ -1059,7 +1071,7 @@ void render()
 	r.center = 0;
 	ggprint8b(&r, 16, c, "B - Bigfoot");
 	ggprint8b(&r, 16, c, "F - Background");
-	ggprint8b(&r, 16, c, "S - Silhouette");
+	ggprint8b(&r, 16, c, "S - Scores");
 	ggprint8b(&r, 16, c, "T - Trees");
 	ggprint8b(&r, 16, c, "U - Umbrella");
 	ggprint8b(&r, 16, c, "R - Rain");
@@ -1070,6 +1082,9 @@ void render()
 
 	if (g.showCredits) {
 		drawCredits();
+	}
+	if (g.showScores) {
+		drawScores();
 	}
 
 	if (g.writeStoryText) {
@@ -1095,4 +1110,18 @@ void drawCredits()
 	showLoganCredits(400,300,g.trashTexture);
 	showOscarCredits(400,200,g.catTexture);
 	showMabelleCredits(400,90,g.mabTexture);
+}
+
+void drawScores(){
+    extern void showScores(int, int, GLuint);
+    glClear(GL_COLOR_BUFFER_BIT);
+    Rect rcred;
+    rcred.bot = gl->yres * 0.75f;
+    rcred.left = gl->xres/2.8;
+    rcred.center = 0;
+    ggprint16(&rcred, 16, 0x0000ff00, "Scores");
+
+    float offset = 0.18f;
+    showScores((gl->xres/2 - 300), gl->yres * (1 - offset), gl->textures[0]);
+
 }
