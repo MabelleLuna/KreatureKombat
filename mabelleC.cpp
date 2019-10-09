@@ -3,6 +3,13 @@
  * Mabelle Cruz
  * CS335: Fall 2019
  *
+ *
+ * List 4 steps of debugging:
+ * 1. Identify and discover the bug and why it happened
+ * 2. Isolate and seperate the healthy code from the problem
+ * 3. Fix the bug by making a unit test
+ * 4  Review your code and make sure it works
+ *
  */
 
 #include <GL/glx.h>
