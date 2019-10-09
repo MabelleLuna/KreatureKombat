@@ -3,6 +3,9 @@
 //Filename:			bradA.cpp
 //Description:		Contains functions written by Brad for the Kreature Kombat game
 
+// 4 Steps of Debugging
+// Identify, Isolate, Fix, Review
+
 #include <math.h>
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
