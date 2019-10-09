@@ -25,10 +25,10 @@
 void showOscarCredits (int x, int y, GLuint id)
 { 
     Rect o;
-	o.bot = 355;
+	o.bot = 185;
 	o.left = 150;
 	o.center = 0;
-	ggprint8b(&o, 16, 0x0, "Oscar Rodriguez");	
+	ggprint16(&o, 16, 0x0, "Oscar Rodriguez");	
 	float wid = 100.0f;
 	glColor3ub(255, 255, 255);
     glPushMatrix();
