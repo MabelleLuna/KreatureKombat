@@ -21,7 +21,7 @@ void showMabelleCredits(int x, int y, GLuint id)
 	float wid = 100.0f;
 	// Displays my name
 	r.bot = 90;
-	r.left = 90;
+	r.left = 152;
 	r.center = 0;
 	ggprint16(&r, 16, 0x0, "Mabelle Cruz");
 	// Displays my picture
