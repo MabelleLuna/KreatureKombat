@@ -3,6 +3,12 @@
  * Professor: Gordon
  * File Name: oscarR.cpp
  * 
+ * 4 debugging steps
+ * 1. identify/error report
+ * 2. isolate/reproduce
+ * 3. fix bug
+ * 4. verify no new bugs
+ * 
 */ 
 
 #include <stdio.h>
