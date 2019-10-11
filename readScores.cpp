@@ -2,7 +2,7 @@
 //  g++ readScores.cpp -Wall -oscores -lssl -lcrypto
 //  
 //Usage:
-//  ./readScores
+//  ./scores
 //
 //
 #include <stdio.h>
@@ -67,7 +67,10 @@ int main(int argc, char *argv[]){
     SSL_set_fd(ssl, sd);
     SSL_connect(ssl);
     //Show the certificate data
-    show_cert_data(ssl, outbio, hostname);
+    //
+    //code below was removed as it was not used anymore:
+    //show_cert_data(ssl, outbio, hostname);
+	//
 	//A non-blocking socket will make the ssl_read() not block.
 	set_to_non_blocking(sd);
 	//
