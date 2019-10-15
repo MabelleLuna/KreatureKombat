@@ -1,5 +1,5 @@
 //Author:			Brad Atkin
-//Last Modified:	2019/09/27
+//Last Modified:	2019/10/15
 //Filename:			bradA.cpp
 //Description:		Contains functions written by Brad for the Kreature Kombat game
 
@@ -106,8 +106,8 @@ void showBradCredits(int x, int y, GLuint id)
 	glPopMatrix();
 }
 
-void bradShowScore() {
-
+void bradShowScore()
+{
 	Rect b;
 
 	b.bot =  400;
