@@ -1,7 +1,8 @@
 //Author:			Brad Atkin
 //Last Modified:	2019/10/15
 //Filename:			bradA.cpp
-//Description:		Contains functions written by Brad for the Kreature Kombat game
+//Description:		Contains functions written by Brad for the 
+//					Kreature Kombat game
 
 // 4 Steps of Debugging
 // Identify, Isolate, Fix, Review
