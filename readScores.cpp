@@ -1,8 +1,9 @@
 //Build:
-//  g++ readScores.cpp -Wall -oscores -lssl -lcrypto
+//  g++ readScores.cpp -Wall -oreadScores -lssl -lcrypto
+//
 //  
 //Usage:
-//  ./scores
+//  ./readScores
 //
 //
 #include <stdio.h>
