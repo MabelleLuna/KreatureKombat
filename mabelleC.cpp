@@ -12,8 +12,7 @@
  *
  */
 
-#include <GL/glx.h>
-#include "fonts.h"
+#include "mabelleC.h"
 
 void showMabelleCredits(int x, int y, GLuint id)
 {
