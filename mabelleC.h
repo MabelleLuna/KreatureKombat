@@ -1,6 +1,6 @@
 /* Mabelle Cruz
  * CS3350: Fall 2019
- * mabelleCruz.h
+ * mabelleC.h
  */
 
 #include <GL/glx.h>
