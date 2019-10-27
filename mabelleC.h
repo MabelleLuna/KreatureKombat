@@ -5,3 +5,4 @@
 
 #include <GL/glx.h>
 #include "fonts.h"
+#include "Image.h"
