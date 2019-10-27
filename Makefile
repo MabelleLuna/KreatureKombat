@@ -4,8 +4,8 @@ LFLAGS = -lrt -lX11 -lGLU -lGL -lm #-lXrandr
 
 all: rainforest readScores
 
-rainforest: rainforest.cpp log.cpp mabelleC.cpp bradA.cpp loganL.cpp oscarR.cpp
-	g++ $(CFLAGS) rainforest.cpp log.cpp mabelleC.cpp bradA.cpp loganL.cpp oscarR.cpp libggfonts.a -Wall -Wextra  $(LFLAGS) -o rainforest
+rainforest: rainforest.cpp log.cpp mabelleC.cpp bradA.cpp loganL.cpp oscarR.cpp Image.cpp
+	g++ $(CFLAGS) rainforest.cpp log.cpp mabelleC.cpp bradA.cpp loganL.cpp oscarR.cpp Image.cpp libggfonts.a -Wall -Wextra  $(LFLAGS) -o rainforest
 
 readScores: readScores.cpp
 	g++ readScores.cpp -Wall -oreadScores -lssl -lcrypto
