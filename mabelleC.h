@@ -6,3 +6,5 @@
 #include <GL/glx.h>
 #include "fonts.h"
 #include "Image.h"
+
+void drawSprite(GLuint, Image&, float, float, float, float);
