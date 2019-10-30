@@ -9,17 +9,7 @@
  * 5. Apply the fix and test it
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <time.h>
-#include <math.h>
-#include <X11/Xlib.h>
-#include <X11/keysym.h>
-#include <GL/glx.h>
-#include "log.h"
-#include "fonts.h"
+#include "loganL.h"
 
 void showLoganCredits (int x, int y, GLuint id)
 {
@@ -40,4 +30,11 @@ void showLoganCredits (int x, int y, GLuint id)
 	glTexCoord2f( 1.0f, 1.0f); glVertex2i( wid/2, -wid/2);
 	glEnd();
 	glPopMatrix();
+}
+
+void Character::sethp(int hp_v) {
+    hp = hp_v;
+}
+void Character::setname(std::string name_v) {
+    name = name_v;
 }
