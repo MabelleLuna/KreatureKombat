@@ -139,6 +139,7 @@ public:
 	bool showScores;
 	bool writeStoryText;
 	bool nextLine;
+	bool spriteTest;
 	GLuint textures[5];
 	GLuint bigfootTexture;
 	GLuint silhouetteTexture;
@@ -174,6 +175,7 @@ public:
 		showCredits = false;
 		showScores = false;
 		writeStoryText = false;
+		spriteTest = false;
 	}
 	static Global *instance;
 	static Global *getInstance(){
@@ -321,6 +323,7 @@ void showLoganCredits(int, int, GLuint);
 void showOscarCredits(int, int, GLuint);
 void drawCredits();
 void drawScores();
+void spriteTest(int);
 
 int main()
 {
@@ -641,7 +644,7 @@ int checkKeys(XEvent *e)
 			printf("silhouette: %i\n", g.silhouette);
 			break;
 		*/case XK_t:
-			g.trees ^= 1;
+			g.spriteTest ^= 1;
 			break;
 		case XK_u:
 			g.showUmbrella ^= 1;
@@ -1072,7 +1075,7 @@ void render()
 	ggprint8b(&r, 16, c, "B - Bigfoot");
 	ggprint8b(&r, 16, c, "F - Background");
 	ggprint8b(&r, 16, c, "S - Scores");
-	ggprint8b(&r, 16, c, "T - Trees");
+	ggprint8b(&r, 16, c, "T - Test");
 	ggprint8b(&r, 16, c, "U - Umbrella");
 	ggprint8b(&r, 16, c, "R - Rain");
 	ggprint8b(&r, 16, c, "D - Deflection");
@@ -1089,6 +1092,17 @@ void render()
 
 	if (g.writeStoryText) {
 		writeStoryText("testTextFile.txt");
+	}
+	
+	if (g.spriteTest) {
+		glColor3f(1.0, 1.0, 1.0);
+		
+		/* working on getting the image to change in the same place by pasing through an int value
+		for (int i=0;i<5;i++) {
+			spriteTest(i);
+		}
+		*/
+		
 	}
 
 }

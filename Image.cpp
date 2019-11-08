@@ -1,4 +1,5 @@
 #include "Image.h"
+#include "stb_image.h"
 
 Image::Image(const char *fname, int row, int col) {
 	file = fname;
@@ -45,11 +46,9 @@ Image::Image(const char *fname, int row, int col) {
 		unlink(ppm);
 }
 
-Image::~Image() {
-	delete [] data;
-}
+Image::~Image() { delete [] data;}
 
-void Image::GenerateGLTexture(GLuint & texture)
+/* void Image::GenerateGLTexture(GLuint & texture)
 {
 
         glGenTextures( 1, &texture);
@@ -62,6 +61,7 @@ void Image::GenerateGLTexture(GLuint & texture)
                                                     GL_UNSIGNED_BYTE, this->data);
                             glBindTexture( GL_TEXTURE_2D, 0);
 }
+
 void Image::GenerateGLTextureALPHA(GLuint & texture, const char * img)
 {
 
@@ -84,3 +84,4 @@ void Image::GenerateGLTextureALPHA(GLuint & texture, const char * img)
     stbi_image_free(data);
 
 }
+*/

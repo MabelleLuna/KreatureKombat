@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
+#include "stb_image.h"
 class Image {
 	public:
 		int width;
