@@ -47,21 +47,26 @@ void showOscarCredits (int x, int y, GLuint id)
 
 }
 
-void spriteTest (int i)
+void spriteTest (int i) 	
 {
-    Image sprite[5] = {
+    Image sprite[10] = {
 		"chom/cs1.png",
 		"chom/cs2.png",
 		"chom/cs3.png",
 		"chom/cs4.png",
-		"chom/cs5.png"};
+		"chom/cs5.png",
+		"chom/cs6.png",
+		"chom/cs7.png",
+		"chom/cs8.png",
+		"chom/cs9.png",
+		"chom/cs10.png"};
 	
 		GLuint chom;
 		//for (int i = 0; i<5; i++) {
 		int w = sprite[i].width;
 		int h = sprite[i].height;
 		int wid = 100.0f;
-		glColor3ub(255, 255, 255);
+		glColor4ub(255,255,255,255);
 		glGenTextures(1, &chom);
 		glPushMatrix();
         glTranslatef(350, 350, 0);

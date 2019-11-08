@@ -55,6 +55,7 @@ struct timespec timePause;
 double physicsCountdown=0.0;
 double timeSpan=0.0;
 unsigned int upause=0;
+int spriteF;
 double timeDiff(struct timespec *start, struct timespec *end) {
 	return (double)(end->tv_sec - start->tv_sec ) +
 			(double)(end->tv_nsec - start->tv_nsec) * oobillion;
@@ -588,7 +589,7 @@ void checkMouse(XEvent *e)
 	}
 	if (e->type == ButtonPress) {
 		if (e->xbutton.button==1) {
-			//Left button is down
+			//Left button is down			
 		}
 		if (e->xbutton.button==3) {
 			//Right button is down
@@ -650,7 +651,9 @@ int checkKeys(XEvent *e)
 			g.showUmbrella ^= 1;
 			break;
 		case XK_p:
-			umbrella.shape ^= 1;
+			spriteF++;
+			printf("sprite: %i\n", spriteF);
+			if (spriteF == 10) spriteF = 0;
 			break;
 		case XK_r:
 			g.showRain ^= 1;
@@ -1075,7 +1078,7 @@ void render()
 	ggprint8b(&r, 16, c, "B - Bigfoot");
 	ggprint8b(&r, 16, c, "F - Background");
 	ggprint8b(&r, 16, c, "S - Scores");
-	ggprint8b(&r, 16, c, "T - Test");
+	ggprint8b(&r, 16, c, "T - Sprite Test (use 'p' to move sprite along!)");
 	ggprint8b(&r, 16, c, "U - Umbrella");
 	ggprint8b(&r, 16, c, "R - Rain");
 	ggprint8b(&r, 16, c, "D - Deflection");
@@ -1095,7 +1098,8 @@ void render()
 	}
 	
 	if (g.spriteTest) {
-		glColor3f(1.0, 1.0, 1.0);
+		spriteTest(spriteF);
+		//spriteTest(frame);
 		
 		/* working on getting the image to change in the same place by pasing through an int value
 		for (int i=0;i<5;i++) {
