@@ -5,7 +5,7 @@ LFLAGS = -lrt -lX11 -lGLU -lGL -lm #-lXrandr
 all: kreaturekombat readScores
 
 kreaturekombat: kreaturekombat.cpp log.cpp mabelleC.cpp bradA.cpp loganL.cpp oscarR.cpp Image.cpp
-	g++ $(CFLAGS) kreaturekombat.cpp log.cpp mabelleC.cpp bradA.cpp loganL.cpp oscarR.cpp Image.cpp libggfonts.a -Wall -Wextra  $(LFLAGS) -o rainforest
+	g++ $(CFLAGS) kreaturekombat.cpp log.cpp mabelleC.cpp bradA.cpp loganL.cpp oscarR.cpp Image.cpp libggfonts.a -Wall -Wextra  $(LFLAGS) -o kreaturekombat
 
 readScores: readScores.cpp
 	g++ readScores.cpp -Wall -oreadScores -lssl -lcrypto
