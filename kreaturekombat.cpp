@@ -120,7 +120,7 @@ public:
 };
 Image img[8] = {
 "./images/bigfoot.png",
-"./images/background.png",
+"./images/streetbackground.png",
 "./images/forestTrans.png",
 "./images/umbrella.png",
 "./images/turtleResized.png",
