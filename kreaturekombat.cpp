@@ -656,7 +656,6 @@ int checkKeys(XEvent *e)
 			titleF++;
 			printf("sprite: %i\n", spriteF);
 			if (spriteF == 10) spriteF = 0;
-			if (titleF == 5) titleF = 0;
 			break;
 		case XK_r:
 			g.showRain ^= 1;
@@ -940,10 +939,10 @@ void checkRaindrops()
 
 void physics()
 {
-	if (g.showBigfoot)
-		moveBigfoot();
-	if (g.showRain)
-		checkRaindrops();
+	if (g.background) {
+		titleF++;
+		if (titleF == 5) titleF = 0;
+	}
 }
 
 void drawUmbrella()
