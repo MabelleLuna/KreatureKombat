@@ -38,8 +38,8 @@ typedef Flt	Matrix[4][4];
 #define VecCopy(a,b) (b)[0]=(a)[0];(b)[1]=(a)[1];(b)[2]=(a)[2]
 #define VecDot(a,b)	((a)[0]*(b)[0]+(a)[1]*(b)[1]+(a)[2]*(b)[2])
 #define VecSub(a,b,c) (c)[0]=(a)[0]-(b)[0]; \
-                      (c)[1]=(a)[1]-(b)[1]; \
-                      (c)[2]=(a)[2]-(b)[2]
+			     (c)[1]=(a)[1]-(b)[1]; \
+(c)[2]=(a)[2]-(b)[2]
 //constants
 const float timeslice = 1.0f;
 const float gravity = -0.2f;
@@ -58,7 +58,7 @@ unsigned int upause=0;
 int spriteF, titleF;
 double timeDiff(struct timespec *start, struct timespec *end) {
 	return (double)(end->tv_sec - start->tv_sec ) +
-			(double)(end->tv_nsec - start->tv_nsec) * oobillion;
+		(double)(end->tv_nsec - start->tv_nsec) * oobillion;
 }
 void timeCopy(struct timespec *dest, struct timespec *source) {
 	memcpy(dest, source, sizeof(struct timespec));
@@ -66,153 +66,158 @@ void timeCopy(struct timespec *dest, struct timespec *source) {
 //-----------------------------------------------------------------------------
 
 class Image {
-public:
-	int width, height;
-	unsigned char *data;
-	~Image() { delete [] data; }
-	Image(const char *fname) {
-		if (fname[0] == '\0')
-			return;
-		//printf("fname **%s**\n", fname);
-		int ppmFlag = 0;
-		char name[40];
-		strcpy(name, fname);
-		int slen = strlen(name);
-		char ppmname[80];
-		if (strncmp(name+(slen-4), ".ppm", 4) == 0)
-			ppmFlag = 1;
-		if (ppmFlag) {
-			strcpy(ppmname, name);
-		} else {
-			name[slen-4] = '\0';
-			//printf("name **%s**\n", name);
-			sprintf(ppmname,"%s.ppm", name);
-			//printf("ppmname **%s**\n", ppmname);
-			char ts[100];
-			//system("convert eball.jpg eball.ppm");
-			sprintf(ts, "convert %s %s", fname, ppmname);
-			system(ts);
-		}
-		//sprintf(ts, "%s", name);
-		FILE *fpi = fopen(ppmname, "r");
-		if (fpi) {
-			char line[200];
-			fgets(line, 200, fpi);
-			fgets(line, 200, fpi);
-			//skip comments and blank lines
-			while (line[0] == '#' || strlen(line) < 2)
+	public:
+		int width, height;
+		unsigned char *data;
+		~Image() { delete [] data; }
+		Image(const char *fname) {
+			if (fname[0] == '\0')
+				return;
+			//printf("fname **%s**\n", fname);
+			int ppmFlag = 0;
+			char name[40];
+			strcpy(name, fname);
+			int slen = strlen(name);
+			char ppmname[80];
+			if (strncmp(name+(slen-4), ".ppm", 4) == 0)
+				ppmFlag = 1;
+			if (ppmFlag) {
+				strcpy(ppmname, name);
+			} else {
+				name[slen-4] = '\0';
+				//printf("name **%s**\n", name);
+				sprintf(ppmname,"%s.ppm", name);
+				//printf("ppmname **%s**\n", ppmname);
+				char ts[100];
+				//system("convert eball.jpg eball.ppm");
+				sprintf(ts, "convert %s %s", fname, ppmname);
+				system(ts);
+			}
+			//sprintf(ts, "%s", name);
+			FILE *fpi = fopen(ppmname, "r");
+			if (fpi) {
+				char line[200];
 				fgets(line, 200, fpi);
-			sscanf(line, "%i %i", &width, &height);
-			fgets(line, 200, fpi);
-			//get pixel data
-			int n = width * height * 3;			
-			data = new unsigned char[n];			
-			for (int i=0; i<n; i++)
-				data[i] = fgetc(fpi);
-			fclose(fpi);
-		} else {
-			printf("ERROR opening image: %s\n",ppmname);
-			exit(0);
+				fgets(line, 200, fpi);
+				//skip comments and blank lines
+				while (line[0] == '#' || strlen(line) < 2)
+					fgets(line, 200, fpi);
+				sscanf(line, "%i %i", &width, &height);
+				fgets(line, 200, fpi);
+				//get pixel data
+				int n = width * height * 3;			
+				data = new unsigned char[n];			
+				for (int i=0; i<n; i++)
+					data[i] = fgetc(fpi);
+				fclose(fpi);
+			} else {
+				printf("ERROR opening image: %s\n",ppmname);
+				exit(0);
+			}
+			if (!ppmFlag)
+				unlink(ppmname);
 		}
-		if (!ppmFlag)
-			unlink(ppmname);
-	}
 };
-Image img[8] = {
-"./images/bigfoot.png",
-"./images/streetbackground.png",
-"./images/forestTrans.png",
-"./images/umbrella.png",
-"./images/turtleResized.png",
-"./images/trash.png",
-"./images/cato.png",
-"./images/mabelleC.png"
-""
+Image img[9] = {
+	"./images/bigfoot.png",
+	"./images/streetbackground.png",
+	"./images/forestTrans.png",
+	"./images/umbrella.png",
+	"./images/turtleResized.png",
+	"./images/trash.png",
+	"./images/cato.png",
+	"./images/mabelleC.png",
+	"./images/daytimestreet.png"
 };
 
 //const char* storyText = testTextFile.txt;
 
 class Global {
-public:
-	int done;
-	int xres, yres;
-	bool showCredits;
-	bool showScores;
-	bool writeStoryText;
-	bool nextLine;
-	bool spriteTest;
-	GLuint textures[5];
-	GLuint bigfootTexture;
-	GLuint silhouetteTexture;
-	GLuint backgroundTexture;
-	GLuint forestTransTexture;
-	GLuint umbrellaTexture;
-	GLuint bradImgTexture;
-	GLuint trashTexture;
-	GLuint catTexture;
-	GLuint mabTexture;
-	GLuint scoreTexture;
-	int showBigfoot;
-	int background;
-	int silhouette;
-	int scores;
-	int trees;
-	int showRain;
-	int showUmbrella;
-	int deflection;
-	Global() {
-		logOpen();
-		done=0;
-		xres=800;
-		yres=600;
-		showBigfoot=0;
-		background=1;
-		scores=1;
-		silhouette=1;
-		trees=1;
-		showRain=0;
-		showUmbrella=0;
-		deflection=0;
-		showCredits = false;
-		showScores = false;
-		writeStoryText = false;
-		spriteTest = false;
-	}
-	static Global *instance;
-	static Global *getInstance(){
-		if (!instance) {
-		    instance = new Global;
+	public:
+		int done;
+		int xres, yres;
+		bool showCredits;
+		bool showScores;
+		bool writeStoryText;
+		bool startGame;
+		bool nextLine;
+		bool spriteTest;
+		GLuint textures[5];
+		GLuint bigfootTexture;
+		GLuint silhouetteTexture;
+		GLuint backgroundTexture;
+		GLuint background2Texture;
+		GLuint forestTransTexture;
+		GLuint umbrellaTexture;
+		GLuint bradImgTexture;
+		GLuint trashTexture;
+		GLuint catTexture;
+		GLuint mabTexture;
+		GLuint scoreTexture;
+		int showBigfoot;
+		int background;
+		int background2;
+		int silhouette;
+		int scores;
+		int trees;
+		int showRain;
+		int showUmbrella;
+		int deflection;
+		Global() {
+			logOpen();
+			done=0;
+			xres=800;
+			yres=600;
+			showBigfoot=0;
+			background=1;
+			background2=1;
+			scores=1;
+			silhouette=1;
+			trees=1;
+			showRain=0;
+			showUmbrella=0;
+			deflection=0;
+			showCredits = false;
+			showScores = false;
+			writeStoryText = false;
+			spriteTest = false;
+			startGame = false;
 		}
-		return instance;
-	}
+		static Global *instance;
+		static Global *getInstance(){
+			if (!instance) {
+				instance = new Global;
+			}
+			return instance;
+		}
 
-	~Global() {
-		logClose();
-	}
+		~Global() {
+			logClose();
+		}
 } g;
 Global *Global::instance = 0;
 Global *gl = gl->getInstance();
 
 class Bigfoot {
-public:
-	Vec pos;
-	Vec vel;
+	public:
+		Vec pos;
+		Vec vel;
 } bigfoot;
 
 class Raindrop {
-public:
-	int type;
-	int linewidth;
-	int sound;
-	Vec pos;
-	Vec lastpos;
-	Vec vel;
-	Vec maxvel;
-	Vec force;
-	float length;
-	float color[4];
-	Raindrop *prev;
-	Raindrop *next;
+	public:
+		int type;
+		int linewidth;
+		int sound;
+		Vec pos;
+		Vec lastpos;
+		Vec vel;
+		Vec maxvel;
+		Vec force;
+		float length;
+		float color[4];
+		Raindrop *prev;
+		Raindrop *next;
 } *rainhead = NULL;
 int ndrops=1;
 int totrain=0;
@@ -223,92 +228,92 @@ void cleanupRaindrops(void);
 #define UMBRELLA_FLAT  0
 #define UMBRELLA_ROUND 1
 class Umbrella {
-public:
-	int shape;
-	Vec pos;
-	Vec lastpos;
-	float width;
-	float width2;
-	float radius;
+	public:
+		int shape;
+		Vec pos;
+		Vec lastpos;
+		float width;
+		float width2;
+		float radius;
 } umbrella;
 
 class X11_wrapper {
-private:
-	Display *dpy;
-	Window win;
-public:
-	X11_wrapper() {
-		GLint att[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
-		//GLint att[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, None };
-		XSetWindowAttributes swa;
-		setupScreenRes(640, 480);
-		dpy = XOpenDisplay(NULL);
-		if (dpy == NULL) {
-			printf("\n\tcannot connect to X server\n\n");
-			exit(EXIT_FAILURE);
+	private:
+		Display *dpy;
+		Window win;
+	public:
+		X11_wrapper() {
+			GLint att[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
+			//GLint att[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, None };
+			XSetWindowAttributes swa;
+			setupScreenRes(640, 480);
+			dpy = XOpenDisplay(NULL);
+			if (dpy == NULL) {
+				printf("\n\tcannot connect to X server\n\n");
+				exit(EXIT_FAILURE);
+			}
+			Window root = DefaultRootWindow(dpy);
+			XVisualInfo *vi = glXChooseVisual(dpy, 0, att);
+			if (vi == NULL) {
+				printf("\n\tno appropriate visual found\n\n");
+				exit(EXIT_FAILURE);
+			} 
+			Colormap cmap = XCreateColormap(dpy, root, vi->visual, AllocNone);
+			swa.colormap = cmap;
+			swa.event_mask = ExposureMask | KeyPressMask | KeyReleaseMask |
+				StructureNotifyMask | SubstructureNotifyMask;
+			win = XCreateWindow(dpy, root, 0, 0, g.xres, g.yres, 0,
+					vi->depth, InputOutput, vi->visual,
+					CWColormap | CWEventMask, &swa);
+			GLXContext glc = glXCreateContext(dpy, vi, NULL, GL_TRUE);
+			glXMakeCurrent(dpy, win, glc);
+			setTitle();
 		}
-		Window root = DefaultRootWindow(dpy);
-		XVisualInfo *vi = glXChooseVisual(dpy, 0, att);
-		if (vi == NULL) {
-			printf("\n\tno appropriate visual found\n\n");
-			exit(EXIT_FAILURE);
-		} 
-		Colormap cmap = XCreateColormap(dpy, root, vi->visual, AllocNone);
-		swa.colormap = cmap;
-		swa.event_mask = ExposureMask | KeyPressMask | KeyReleaseMask |
-							StructureNotifyMask | SubstructureNotifyMask;
-		win = XCreateWindow(dpy, root, 0, 0, g.xres, g.yres, 0,
-								vi->depth, InputOutput, vi->visual,
-								CWColormap | CWEventMask, &swa);
-		GLXContext glc = glXCreateContext(dpy, vi, NULL, GL_TRUE);
-		glXMakeCurrent(dpy, win, glc);
-		setTitle();
-	}
-	~X11_wrapper() {
-		XDestroyWindow(dpy, win);
-		XCloseDisplay(dpy);
-	}
-	void setTitle() {
-		//Set the window title bar.
-		XMapWindow(dpy, win);
-		XStoreName(dpy, win, "Kreature Kombat");
-	}
-	void setupScreenRes(const int w, const int h) {
-		g.xres = w;
-		g.yres = h;
-	}
-	void reshapeWindow(int width, int height) {
-		//window has been resized.
-		setupScreenRes(width, height);
-		//
-		glViewport(0, 0, (GLint)width, (GLint)height);
-		glMatrixMode(GL_PROJECTION); glLoadIdentity();
-		glMatrixMode(GL_MODELVIEW); glLoadIdentity();
-		glOrtho(0, g.xres, 0, g.yres, -1, 1);
-		setTitle();
-	}
-	void checkResize(XEvent *e) {
-		//The ConfigureNotify is sent by the
-		//server if the window is resized.
-		if (e->type != ConfigureNotify)
-			return;
-		XConfigureEvent xce = e->xconfigure;
-		if (xce.width != g.xres || xce.height != g.yres) {
-			//Window size did change.
-			reshapeWindow(xce.width, xce.height);
+		~X11_wrapper() {
+			XDestroyWindow(dpy, win);
+			XCloseDisplay(dpy);
 		}
-	}
-	bool getXPending() {
-		return XPending(dpy);
-	}
-	XEvent getXNextEvent() {
-		XEvent e;
-		XNextEvent(dpy, &e);
-		return e;
-	}
-	void swapBuffers() {
-		glXSwapBuffers(dpy, win);
-	}
+		void setTitle() {
+			//Set the window title bar.
+			XMapWindow(dpy, win);
+			XStoreName(dpy, win, "Kreature Kombat");
+		}
+		void setupScreenRes(const int w, const int h) {
+			g.xres = w;
+			g.yres = h;
+		}
+		void reshapeWindow(int width, int height) {
+			//window has been resized.
+			setupScreenRes(width, height);
+			//
+			glViewport(0, 0, (GLint)width, (GLint)height);
+			glMatrixMode(GL_PROJECTION); glLoadIdentity();
+			glMatrixMode(GL_MODELVIEW); glLoadIdentity();
+			glOrtho(0, g.xres, 0, g.yres, -1, 1);
+			setTitle();
+		}
+		void checkResize(XEvent *e) {
+			//The ConfigureNotify is sent by the
+			//server if the window is resized.
+			if (e->type != ConfigureNotify)
+				return;
+			XConfigureEvent xce = e->xconfigure;
+			if (xce.width != g.xres || xce.height != g.yres) {
+				//Window size did change.
+				reshapeWindow(xce.width, xce.height);
+			}
+		}
+		bool getXPending() {
+			return XPending(dpy);
+		}
+		XEvent getXNextEvent() {
+			XEvent e;
+			XNextEvent(dpy, &e);
+			return e;
+		}
+		void swapBuffers() {
+			glXSwapBuffers(dpy, win);
+		}
 } x11;
 
 //function prototypes
@@ -326,6 +331,7 @@ void drawCredits();
 void showTitle(int);
 void drawScores();
 void spriteTest(int);
+void gameScene();
 
 int main()
 {
@@ -436,14 +442,15 @@ void initOpengl(void)
 	//
 	//load the images file into a ppm structure.
 	//
-//	bigfootImage     = ppm6GetImage("./images/bigfoot.ppm");
-//	forestImage      = ppm6GetImage("./images/forest.ppm");
-//	forestTransImage = ppm6GetImage("./images/forestTrans.ppm");
-//	umbrellaImage    = ppm6GetImage("./images/umbrella.ppm");
+	//	bigfootImage     = ppm6GetImage("./images/bigfoot.ppm");
+	//	forestImage      = ppm6GetImage("./images/forest.ppm");
+	//	forestTransImage = ppm6GetImage("./images/forestTrans.ppm");
+	//	umbrellaImage    = ppm6GetImage("./images/umbrella.ppm");
 	//create opengl texture elements
 	glGenTextures(1, &g.bigfootTexture);
 	glGenTextures(1, &g.silhouetteTexture);
 	glGenTextures(1, &g.backgroundTexture);
+	glGenTextures(1, &g.background2Texture);
 	glGenTextures(1, &g.umbrellaTexture);
 	glGenTextures(1, &g.bradImgTexture);
 	glGenTextures(1, &g.trashTexture);
@@ -461,7 +468,7 @@ void initOpengl(void)
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0,
-		GL_RGB, GL_UNSIGNED_BYTE, img[0].data);
+			GL_RGB, GL_UNSIGNED_BYTE, img[0].data);
 	//-------------------------------------------------------------------------
 	//Brad's img
 	int w1 = img[4].width;
@@ -470,8 +477,8 @@ void initOpengl(void)
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, w1, h2, 0,
-		GL_RGB, GL_UNSIGNED_BYTE, img[4].data);
-	
+			GL_RGB, GL_UNSIGNED_BYTE, img[4].data);
+
 	//Logan's img
 	int w2 = img[5].width;
 	int h3 = img[5].height;
@@ -479,8 +486,8 @@ void initOpengl(void)
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, w2, h3, 0,
-		GL_RGB, GL_UNSIGNED_BYTE, img[5].data);	
-	
+			GL_RGB, GL_UNSIGNED_BYTE, img[5].data);	
+
 	//Oscar's cat image
 	int w6 = img[6].width;
 	int h6 = img[6].height;
@@ -488,8 +495,8 @@ void initOpengl(void)
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, w6, h6, 0,
-		GL_RGB, GL_UNSIGNED_BYTE, img[6].data);
-	
+			GL_RGB, GL_UNSIGNED_BYTE, img[6].data);
+
 	//Mabelle's Credits IMG
 	int imgw = img[7].width;
 	int imgh = img[7].height;
@@ -497,8 +504,8 @@ void initOpengl(void)
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, imgw, imgh, 0,
-		GL_RGB, GL_UNSIGNED_BYTE, img[7].data);
-	
+			GL_RGB, GL_UNSIGNED_BYTE, img[7].data);
+
 	//silhouette
 	//this is similar to a sprite graphic
 	//
@@ -510,7 +517,7 @@ void initOpengl(void)
 	//must build a new set of data...
 	unsigned char *silhouetteData = buildAlphaData(&img[0]);	
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-							GL_RGBA, GL_UNSIGNED_BYTE, silhouetteData);
+			GL_RGBA, GL_UNSIGNED_BYTE, silhouetteData);
 	free(silhouetteData);
 	//glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0,
 	//	GL_RGB, GL_UNSIGNED_BYTE, bigfootImage->data);
@@ -526,7 +533,7 @@ void initOpengl(void)
 	//must build a new set of data...
 	silhouetteData = buildAlphaData(&img[3]);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-							GL_RGBA, GL_UNSIGNED_BYTE, silhouetteData);
+			GL_RGBA, GL_UNSIGNED_BYTE, silhouetteData);
 	free(silhouetteData);
 	//glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0,
 	//	GL_RGB, GL_UNSIGNED_BYTE, bigfootImage->data);
@@ -538,10 +545,19 @@ void initOpengl(void)
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3,
-		img[1].width, img[1].height,
-		0, GL_RGB, GL_UNSIGNED_BYTE, img[1].data);
+			img[1].width, img[1].height,
+			0, GL_RGB, GL_UNSIGNED_BYTE, img[1].data);
 	//-------------------------------------------------------------------------
-	//
+
+	glBindTexture(GL_TEXTURE_2D, g.background2Texture);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, 3, img[8].width, img[8].height,
+			0, GL_RGB, GL_UNSIGNED_BYTE, img[8].data);
+	//glTexImage2D(GL_TEXTURE_2D, 0, 3, imgw, imgh, 0,
+	//	GL_RGB, GL_UNSIGNED_BYTE, img[7].data);
+
+
 	//forest transparent part
 	//
 	glBindTexture(GL_TEXTURE_2D, g.forestTransTexture);
@@ -554,7 +570,7 @@ void initOpengl(void)
 	h = img[2].height;
 	unsigned char *ftData = buildAlphaData(&img[2]);	
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0,
-							GL_RGBA, GL_UNSIGNED_BYTE, ftData);
+			GL_RGBA, GL_UNSIGNED_BYTE, ftData);
 	free(ftData);
 	//glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0,
 	//GL_RGB, GL_UNSIGNED_BYTE, bigfootImage->data);
@@ -641,11 +657,11 @@ int checkKeys(XEvent *e)
 		case XK_f:
 			g.background ^= 1;
 			break;
-		/*case XK_s:
-			g.silhouette ^= 1;
-			printf("silhouette: %i\n", g.silhouette);
-			break;
-		*/case XK_t:
+			/*case XK_s:
+			  g.silhouette ^= 1;
+			  printf("silhouette: %i\n", g.silhouette);
+			  break;
+			  */case XK_t:
 			g.spriteTest ^= 1;
 			break;
 		case XK_u:
@@ -659,6 +675,9 @@ int checkKeys(XEvent *e)
 			break;
 		case XK_r:
 			g.showRain ^= 1;
+			break;
+		case XK_a:
+			g.startGame ^= 1;
 			break;
 		case XK_q:
 			//writeStoryText("The story begins....");
@@ -778,14 +797,14 @@ void moveBigfoot()
 	bigfoot.pos[1] += bigfoot.vel[1];
 	//Check for collision with window edges
 	if ((bigfoot.pos[0] < -140.0 && bigfoot.vel[0] < 0.0) ||
-		(bigfoot.pos[0] >= (float)g.xres+140.0 &&
-		bigfoot.vel[0] > 0.0))
+			(bigfoot.pos[0] >= (float)g.xres+140.0 &&
+			 bigfoot.vel[0] > 0.0))
 	{
 		bigfoot.vel[0] = -bigfoot.vel[0];
 		addgrav = 0;
 	}
 	if ((bigfoot.pos[1] < 150.0 && bigfoot.vel[1] < 0.0) ||
-		(bigfoot.pos[1] >= (float)g.yres && bigfoot.vel[1] > 0.0)) {
+			(bigfoot.pos[1] >= (float)g.yres && bigfoot.vel[1] > 0.0)) {
 		bigfoot.vel[1] = -bigfoot.vel[1];
 		addgrav = 0;
 	}
@@ -812,7 +831,7 @@ void createRaindrop(const int n)
 		node->pos[1] = rnd() * 100.0f + (float)g.yres;
 		VecCopy(node->pos, node->lastpos);
 		node->vel[0] = 
-		node->vel[1] = 0.0f;
+			node->vel[1] = 0.0f;
 		node->color[0] = rnd() * 0.2f + 0.8f;
 		node->color[1] = rnd() * 0.2f + 0.8f;
 		node->color[2] = rnd() * 0.2f + 0.8f;
@@ -852,69 +871,36 @@ void checkRaindrops()
 	//}
 	//
 	//check rain droplets
-	int n=0;
-	node = rainhead;
-	while (node) {
-		n++;
-		#ifdef USE_SOUND
-		if (node->pos[1] < 0.0f) {
-			//raindrop hit ground
-			if (!node->sound && play_sounds) {
-				//small chance that a sound will play
-				int r = random(50);
-				if (r==1) {
-					//play sound here...
+int n=0;
+node = rainhead;
+while (node) {
+	n++;
+#ifdef USE_SOUND
+	if (node->pos[1] < 0.0f) {
+		//raindrop hit ground
+		if (!node->sound && play_sounds) {
+			//small chance that a sound will play
+			int r = random(50);
+			if (r==1) {
+				//play sound here...
 
 
-				}
-				//sound plays once per raindrop
-				node->sound=1;
 			}
+			//sound plays once per raindrop
+			node->sound=1;
 		}
-		#endif //USE_SOUND
-		//collision detection for raindrop on umbrella
-		if (g.showUmbrella) {
-			if (umbrella.shape == UMBRELLA_FLAT) {
-				if (node->pos[0] >= (umbrella.pos[0] - umbrella.width2) &&
+	}
+#endif //USE_SOUND
+	//collision detection for raindrop on umbrella
+	if (g.showUmbrella) {
+		if (umbrella.shape == UMBRELLA_FLAT) {
+			if (node->pos[0] >= (umbrella.pos[0] - umbrella.width2) &&
 					node->pos[0] <= (umbrella.pos[0] + umbrella.width2)) {
-					if (node->lastpos[1] > umbrella.lastpos[1] ||
+				if (node->lastpos[1] > umbrella.lastpos[1] ||
 						node->lastpos[1] > umbrella.pos[1]) {
-						if (node->pos[1] <= umbrella.pos[1] ||
+					if (node->pos[1] <= umbrella.pos[1] ||
 							node->pos[1] <= umbrella.lastpos[1]) {
-							if (node->linewidth > 1) {
-								Raindrop *savenode = node->next;
-								deleteRain(node);
-								node = savenode;
-								continue;
-							}
-						}
-					}
-				}
-			}
-			if (umbrella.shape == UMBRELLA_ROUND) {
-				float d0 = node->pos[0] - umbrella.pos[0];
-				float d1 = node->pos[1] - umbrella.pos[1];
-				float distance = sqrt((d0*d0)+(d1*d1));
-				//Log("distance: %f  umbrella.radius: %f\n",
-				//							distance,umbrella.radius);
-				if (distance <= umbrella.radius &&
-										node->pos[1] > umbrella.pos[1]) {
-					if (node->linewidth > 1) {
-						if (g.deflection) {
-							//deflect raindrop
-							double dot;
-							Vec v, up = {0,1,0};
-							VecSub(node->pos, umbrella.pos, v);
-							VecNormalize(v);
-							node->pos[0] =
-								umbrella.pos[0] + v[0] * umbrella.radius;
-							node->pos[1] =
-								umbrella.pos[1] + v[1] * umbrella.radius;
-							dot = VecDot(v,up);
-							dot += 1.0;
-							node->vel[0] += v[0] * dot * 1.0;
-							node->vel[1] += v[1] * dot * 1.0;
-						} else {
+						if (node->linewidth > 1) {
 							Raindrop *savenode = node->next;
 							deleteRain(node);
 							node = savenode;
@@ -924,24 +910,67 @@ void checkRaindrops()
 				}
 			}
 		}
-		if (node->pos[1] < -20.0f) {
-			//rain drop is below the visible area
-			Raindrop *savenode = node->next;
-			deleteRain(node);
-			node = savenode;
-			continue;
+		if (umbrella.shape == UMBRELLA_ROUND) {
+			float d0 = node->pos[0] - umbrella.pos[0];
+			float d1 = node->pos[1] - umbrella.pos[1];
+			float distance = sqrt((d0*d0)+(d1*d1));
+			//Log("distance: %f  umbrella.radius: %f\n",
+			//							distance,umbrella.radius);
+			if (distance <= umbrella.radius &&
+					node->pos[1] > umbrella.pos[1]) {
+				if (node->linewidth > 1) {
+					if (g.deflection) {
+						//deflect raindrop
+						double dot;
+						Vec v, up = {0,1,0};
+						VecSub(node->pos, umbrella.pos, v);
+						VecNormalize(v);
+						node->pos[0] =
+							umbrella.pos[0] + v[0] * umbrella.radius;
+						node->pos[1] =
+							umbrella.pos[1] + v[1] * umbrella.radius;
+						dot = VecDot(v,up);
+						dot += 1.0;
+						node->vel[0] += v[0] * dot * 1.0;
+						node->vel[1] += v[1] * dot * 1.0;
+					} else {
+						Raindrop *savenode = node->next;
+						deleteRain(node);
+						node = savenode;
+						continue;
+					}
+				}
+			}
 		}
-		node = node->next;
 	}
-	if (maxrain < n)
-		maxrain = n;
+	if (node->pos[1] < -20.0f) {
+		//rain drop is below the visible area
+		Raindrop *savenode = node->next;
+		deleteRain(node);
+		node = savenode;
+		continue;
+	}
+	node = node->next;
 }
+if (maxrain < n)
+	maxrain = n;
+	}
 
 void physics()
 {
 	if (g.background) {
 		titleF++;
 		if (titleF == 5) titleF = 0;
+	}
+
+	if (g.background2) {
+		Rect r;
+		unsigned int c = 0x00ffff44;
+		r.bot = g.yres - 150;
+		r.left = 10;
+		r.center = 0;
+		ggprint8b(&r, 16, c, "Start");
+
 	}
 }
 
@@ -952,8 +981,8 @@ void drawUmbrella()
 		glColor4f(1.0f, 0.2f, 0.2f, 0.5f);
 		glLineWidth(8);
 		glBegin(GL_LINES);
-			glVertex2f(umbrella.pos[0]-umbrella.width2, umbrella.pos[1]);
-			glVertex2f(umbrella.pos[0]+umbrella.width2, umbrella.pos[1]);
+		glVertex2f(umbrella.pos[0]-umbrella.width2, umbrella.pos[1]);
+		glVertex2f(umbrella.pos[0]+umbrella.width2, umbrella.pos[1]);
 		glEnd();
 		glLineWidth(1);
 	} else {
@@ -964,11 +993,11 @@ void drawUmbrella()
 		glAlphaFunc(GL_GREATER, 0.0f);
 		glBindTexture(GL_TEXTURE_2D, g.umbrellaTexture);
 		glBegin(GL_QUADS);
-			float w = umbrella.width2;
-			glTexCoord2f(0.0f, 0.0f); glVertex2f(-w,  w);
-			glTexCoord2f(1.0f, 0.0f); glVertex2f( w,  w);
-			glTexCoord2f(1.0f, 1.0f); glVertex2f( w, -w);
-			glTexCoord2f(0.0f, 1.0f); glVertex2f(-w, -w);
+		float w = umbrella.width2;
+		glTexCoord2f(0.0f, 0.0f); glVertex2f(-w,  w);
+		glTexCoord2f(1.0f, 0.0f); glVertex2f( w,  w);
+		glTexCoord2f(1.0f, 1.0f); glVertex2f( w, -w);
+		glTexCoord2f(0.0f, 1.0f); glVertex2f(-w, -w);
 		glEnd();
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glDisable(GL_ALPHA_TEST);
@@ -985,8 +1014,8 @@ void drawRaindrops()
 		glColor4fv(node->color);
 		glLineWidth(node->linewidth);
 		glBegin(GL_LINES);
-			glVertex2f(0.0f, 0.0f);
-			glVertex2f(0.0f, node->length);
+		glVertex2f(0.0f, 0.0f);
+		glVertex2f(0.0f, node->length);
 		glEnd();
 		glPopMatrix();
 		node = node->next;
@@ -1008,13 +1037,13 @@ void render()
 	if (g.background) {
 		glBindTexture(GL_TEXTURE_2D, g.backgroundTexture);
 		glBegin(GL_QUADS);
-			glTexCoord2f(0.0f, 1.0f); glVertex2i(0, 0);
-			glTexCoord2f(0.0f, 0.0f); glVertex2i(0, g.yres);
-			glTexCoord2f(1.0f, 0.0f); glVertex2i(g.xres, g.yres);
-			glTexCoord2f(1.0f, 1.0f); glVertex2i(g.xres, 0);
+		glTexCoord2f(0.0f, 1.0f); glVertex2i(0, 0);
+		glTexCoord2f(0.0f, 0.0f); glVertex2i(0, g.yres);
+		glTexCoord2f(1.0f, 0.0f); glVertex2i(g.xres, g.yres);
+		glTexCoord2f(1.0f, 1.0f); glVertex2i(g.xres, 0);
 		glEnd();
 		showTitle(titleF);
-		
+
 	}
 	if (g.showBigfoot) {
 		glPushMatrix();
@@ -1028,27 +1057,27 @@ void render()
 			glColor4ub(255,255,255,255);
 		}
 		glBegin(GL_QUADS);
-			if (bigfoot.vel[0] > 0.0) {
-				glTexCoord2f(0.0f, 1.0f); glVertex2i(-wid,-wid);
-				glTexCoord2f(0.0f, 0.0f); glVertex2i(-wid, wid);
-				glTexCoord2f(1.0f, 0.0f); glVertex2i( wid, wid);
-				glTexCoord2f(1.0f, 1.0f); glVertex2i( wid,-wid);
-			} else {
-				glTexCoord2f(1.0f, 1.0f); glVertex2i(-wid,-wid);
-				glTexCoord2f(1.0f, 0.0f); glVertex2i(-wid, wid);
-				glTexCoord2f(0.0f, 0.0f); glVertex2i( wid, wid);
-				glTexCoord2f(0.0f, 1.0f); glVertex2i( wid,-wid);
-			}
+		if (bigfoot.vel[0] > 0.0) {
+			glTexCoord2f(0.0f, 1.0f); glVertex2i(-wid,-wid);
+			glTexCoord2f(0.0f, 0.0f); glVertex2i(-wid, wid);
+			glTexCoord2f(1.0f, 0.0f); glVertex2i( wid, wid);
+			glTexCoord2f(1.0f, 1.0f); glVertex2i( wid,-wid);
+		} else {
+			glTexCoord2f(1.0f, 1.0f); glVertex2i(-wid,-wid);
+			glTexCoord2f(1.0f, 0.0f); glVertex2i(-wid, wid);
+			glTexCoord2f(0.0f, 0.0f); glVertex2i( wid, wid);
+			glTexCoord2f(0.0f, 1.0f); glVertex2i( wid,-wid);
+		}
 		glEnd();
 		glPopMatrix();
 		//
 		if (g.trees && g.silhouette) {
 			glBindTexture(GL_TEXTURE_2D, g.forestTransTexture);
 			glBegin(GL_QUADS);
-				glTexCoord2f(0.0f, 1.0f); glVertex2i(0, 0);
-				glTexCoord2f(0.0f, 0.0f); glVertex2i(0, g.yres);
-				glTexCoord2f(1.0f, 0.0f); glVertex2i(g.xres, g.yres);
-				glTexCoord2f(1.0f, 1.0f); glVertex2i(g.xres, 0);
+			glTexCoord2f(0.0f, 1.0f); glVertex2i(0, 0);
+			glTexCoord2f(0.0f, 0.0f); glVertex2i(0, g.yres);
+			glTexCoord2f(1.0f, 0.0f); glVertex2i(g.xres, g.yres);
+			glTexCoord2f(1.0f, 1.0f); glVertex2i(g.xres, 0);
 			glEnd();
 		}
 		glDisable(GL_ALPHA_TEST);
@@ -1079,6 +1108,7 @@ void render()
 	r.bot = g.yres - 150;
 	r.left = 10;
 	r.center = 0;
+	ggprint8b(&r, 16, c, "A - Start");
 	ggprint8b(&r, 16, c, "B - Bigfoot");
 	ggprint8b(&r, 16, c, "F - Background");
 	ggprint8b(&r, 16, c, "S - Scores");
@@ -1100,13 +1130,35 @@ void render()
 	if (g.writeStoryText) {
 		writeStoryText("testTextFile.txt");
 	}
-	
+
 	if (g.spriteTest) {
 		spriteTest(spriteF);
-		
+
 	}
 
+	if (g.startGame){
+		gameScene();	
+	}
 }
+
+void gameScene()
+{
+	glClearColor(1.0, 1.0, 1.0, 1.0);
+	glClear(GL_COLOR_BUFFER_BIT);
+	//
+	//draw a quad with texture
+	glColor3f(1.0, 1.0, 1.0);
+	if (g.startGame){
+		glBindTexture(GL_TEXTURE_2D, g.background2Texture);
+		glBegin(GL_QUADS);
+		glTexCoord2f(0.0f, 1.0f); glVertex2i(0, 0);
+		glTexCoord2f(0.0f, 0.0f); glVertex2i(0, g.yres);
+		glTexCoord2f(1.0f, 0.0f); glVertex2i(g.xres, g.yres);
+		glTexCoord2f(1.0f, 1.0f); glVertex2i(g.xres, 0);
+		glEnd();
+	}
+}
+
 
 void drawCredits()
 {
@@ -1128,16 +1180,16 @@ void drawCredits()
 }
 
 void drawScores(){
-    extern void showScores(int, int, GLuint);
+	extern void showScores(int, int, GLuint);
 	void bradShowScore();
-    glClear(GL_COLOR_BUFFER_BIT);
-    Rect rcred;
-    rcred.bot = gl->yres * 0.75f;
-    rcred.left = gl->xres/2.8;
-    rcred.center = 0;
-    ggprint16(&rcred, 16, 0x0000ff00, "Scores");
+	glClear(GL_COLOR_BUFFER_BIT);
+	Rect rcred;
+	rcred.bot = gl->yres * 0.75f;
+	rcred.left = gl->xres/2.8;
+	rcred.center = 0;
+	ggprint16(&rcred, 16, 0x0000ff00, "Scores");
 
-    float offset = 0.18f;
-    showScores((gl->xres/2 - 300), gl->yres * (1 - offset), gl->textures[0]);
+	float offset = 0.18f;
+	showScores((gl->xres/2 - 300), gl->yres * (1 - offset), gl->textures[0]);
 	bradShowScore();
 }
