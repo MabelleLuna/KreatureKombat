@@ -55,7 +55,7 @@ struct timespec timePause;
 double physicsCountdown=0.0;
 double timeSpan=0.0;
 unsigned int upause=0;
-int spriteF;
+int spriteF, titleF;
 double timeDiff(struct timespec *start, struct timespec *end) {
 	return (double)(end->tv_sec - start->tv_sec ) +
 			(double)(end->tv_nsec - start->tv_nsec) * oobillion;
@@ -271,7 +271,7 @@ public:
 	void setTitle() {
 		//Set the window title bar.
 		XMapWindow(dpy, win);
-		XStoreName(dpy, win, "3350 - Animation Template");
+		XStoreName(dpy, win, "Kreature Kombat");
 	}
 	void setupScreenRes(const int w, const int h) {
 		g.xres = w;
@@ -323,6 +323,7 @@ void showBradCredits(int, int, GLuint);
 void showLoganCredits(int, int, GLuint);
 void showOscarCredits(int, int, GLuint);
 void drawCredits();
+void showTitle(int);
 void drawScores();
 void spriteTest(int);
 
@@ -652,8 +653,10 @@ int checkKeys(XEvent *e)
 			break;
 		case XK_p:
 			spriteF++;
+			titleF++;
 			printf("sprite: %i\n", spriteF);
 			if (spriteF == 10) spriteF = 0;
+			if (titleF == 5) titleF = 0;
 			break;
 		case XK_r:
 			g.showRain ^= 1;
@@ -1011,6 +1014,8 @@ void render()
 			glTexCoord2f(1.0f, 0.0f); glVertex2i(g.xres, g.yres);
 			glTexCoord2f(1.0f, 1.0f); glVertex2i(g.xres, 0);
 		glEnd();
+		showTitle(titleF);
+		
 	}
 	if (g.showBigfoot) {
 		glPushMatrix();
@@ -1072,13 +1077,13 @@ void render()
 	//
 	//
 	unsigned int c = 0x00ffff44;
-	r.bot = g.yres - 20;
+	r.bot = g.yres - 150;
 	r.left = 10;
 	r.center = 0;
 	ggprint8b(&r, 16, c, "B - Bigfoot");
 	ggprint8b(&r, 16, c, "F - Background");
 	ggprint8b(&r, 16, c, "S - Scores");
-	ggprint8b(&r, 16, c, "T - Sprite Test (use 'p' to move sprite along!)");
+	ggprint8b(&r, 16, c, "T - Sprite Test (use 'p' to iterate)");
 	ggprint8b(&r, 16, c, "U - Umbrella");
 	ggprint8b(&r, 16, c, "R - Rain");
 	ggprint8b(&r, 16, c, "D - Deflection");
@@ -1099,13 +1104,6 @@ void render()
 	
 	if (g.spriteTest) {
 		spriteTest(spriteF);
-		//spriteTest(frame);
-		
-		/* working on getting the image to change in the same place by pasing through an int value
-		for (int i=0;i<5;i++) {
-			spriteTest(i);
-		}
-		*/
 		
 	}
 

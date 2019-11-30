@@ -79,28 +79,28 @@ void showOscarCredits (int x, int y, GLuint id)
 void spriteTest (int i) 	
 {
     Image sprite[10] = {
-		"chom/cs1.png",
-		"chom/cs2.png",
-		"chom/cs3.png",
-		"chom/cs4.png",
-		"chom/cs5.png",
-		"chom/cs6.png",
-		"chom/cs7.png",
-		"chom/cs8.png",
-		"chom/cs9.png",
-		"chom/cs10.png"
+		"images/chom/cs1.png",
+		"images/chom/cs2.png",
+		"images/chom/cs3.png",
+		"images/chom/cs4.png",
+		"images/chom/cs5.png",
+		"images/chom/cs6.png",
+		"images/chom/cs7.png",
+		"images/chom/cs8.png",
+		"images/chom/cs9.png",
+		"images/chom/cs10.png"
 	};
 	
 	GLuint chom;
 	unsigned char *sData;
 	int w = sprite[i].width;
 	int h = sprite[i].height;
-	int wid = 500.0f;
+	int wid = 250.0f;
 	glGenTextures(1, &chom);
 	glColor3f(1.0, 1.0, 1.0);
 	glEnable(GL_ALPHA_TEST);
 	glPushMatrix();
-    glTranslatef(350, 350, 0);
+    glTranslatef(350, 200, 0);
     glBindTexture(GL_TEXTURE_2D, chom);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
@@ -113,6 +113,44 @@ void spriteTest (int i)
     glTexCoord2f(0.0f, 0.0f); glVertex2i(-wid/2,  wid/2);
     glTexCoord2f(1.0f, 0.0f); glVertex2i( wid/2,  wid/2);
     glTexCoord2f(1.0f, 1.0f); glVertex2i( wid/2, -wid/2);
+    glEnd();
+    glPopMatrix();
+	glDisable(GL_ALPHA_TEST);
+}
+
+void showTitle (int i) 	
+{
+    Image img[5] = {
+		"images/title/kktitle.png",
+		"images/title/kktitle1.png",
+		"images/title/kktitle2.png",
+		"images/title/kktitle3.png",
+		"images/title/kktitle4.png",
+	};
+	
+	GLuint texture;
+	unsigned char *iData;
+	int w = img[i].width;
+	int h = img[i].height;
+	int wid = 300.0f;
+	int hid = 40.0f;
+	glGenTextures(1, &texture);
+	glColor3f(1.0, 1.0, 1.0);
+	glEnable(GL_ALPHA_TEST);
+	glPushMatrix();
+    glTranslatef(320, 400, 0);
+    glBindTexture(GL_TEXTURE_2D, texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+	iData = bAD(&img[i]);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, 
+			iData);
+	free(iData);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 1.0f); glVertex2i(-wid, -hid);
+    glTexCoord2f(0.0f, 0.0f); glVertex2i(-wid,  hid);
+    glTexCoord2f(1.0f, 0.0f); glVertex2i( wid,  hid);
+    glTexCoord2f(1.0f, 1.0f); glVertex2i( wid, -hid);
     glEnd();
     glPopMatrix();
 	glDisable(GL_ALPHA_TEST);
