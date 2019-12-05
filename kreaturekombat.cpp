@@ -26,6 +26,7 @@
 //#include "ppm.h"
 #include "fonts.h"
 
+
 //defined types
 typedef double Flt;
 typedef double Vec[3];
@@ -140,8 +141,8 @@ class Global {
 		bool showScores;
 		bool writeStoryText;
 		bool startGame;
-		bool nextLine;
 		bool spriteTest;
+		int storyIndex = 0;
 		GLuint textures[5];
 		GLuint bigfootTexture;
 		GLuint silhouetteTexture;
@@ -323,7 +324,7 @@ int checkKeys(XEvent *e);
 void init();
 void physics(void);
 void render(void);
-void writeStoryText(const char*);
+void writeStoryText(const char*, int);
 void showBradCredits(int, int, GLuint);
 void showLoganCredits(int, int, GLuint);
 void showOscarCredits(int, int, GLuint);
@@ -684,7 +685,7 @@ int checkKeys(XEvent *e)
 			g.writeStoryText ^= 1;
 			break;
 		case XK_Return:
-			g.nextLine ^= 1;
+			g.storyIndex += 1;
 			break;
 		case XK_Left:
 			VecCopy(umbrella.pos, umbrella.lastpos);
@@ -972,6 +973,9 @@ void physics()
 		ggprint8b(&r, 16, c, "Start");
 
 	}
+	//if (g.writeStoryText) {
+	//	writeStoryText("testTextFile.txt");
+	//}
 }
 
 void drawUmbrella()
@@ -1128,7 +1132,7 @@ void render()
 	}
 
 	if (g.writeStoryText) {
-		writeStoryText("testTextFile.txt");
+		writeStoryText("kkstory.txt", g.storyIndex);
 	}
 
 	if (g.spriteTest) {

@@ -15,7 +15,8 @@
 #include "fonts.h"
 #include <fstream>
 #include <string>
-
+#include <limits>
+#include <iostream>
 using namespace std;
 
 
@@ -36,7 +37,7 @@ public:
 
 } gB;
 
-void writeStoryText(const char* storyTextFileName) 
+void writeStoryText(const char* storyTextFileName, int storyIndex) 
 {
 	Shape s1;
 	glColor3ub(225,225,225);
@@ -73,13 +74,36 @@ void writeStoryText(const char* storyTextFileName)
 	string str;
 	string file_contents;
 	
-	
+	/* Writes all text in file to screen
 	while (getline(file, str)) {
 		file_contents = str;
 		file_contents.push_back('\n');
 		const char* fileContent = file_contents.c_str();
 		ggprint8b(&b, 16, f, fileContent);
 	} 
+	*/
+	//writes first line only
+	//while(getline(file, str, '\n')) {
+	for(int i = 0; i < storyIndex; i++) {
+		getline(file, str, '\n');
+	}
+	
+	getline(file,str);
+	file_contents = str;
+	const char* fileContent = file_contents.c_str();
+	ggprint8b(&b, 16, f, fileContent);
+	
+	/*
+	ifstream input(storyTextFileName);
+	string line;
+	while (getline(input, line)) {
+		cout << line << endl;
+		file_contents = line;
+		const char* fileContent = file_contents.c_str();
+		ggprint8b(&b, 16, f, fileContent);
+		//cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	}
+	*/
 
 }
 
