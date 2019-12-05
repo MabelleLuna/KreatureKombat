@@ -25,6 +25,7 @@
 #include "log.h"
 //#include "ppm.h"
 #include "fonts.h"
+#include "bradA.h"
 
 
 //defined types
@@ -333,6 +334,7 @@ void showTitle(int);
 void drawScores();
 void spriteTest(int);
 void gameScene();
+extern void menu();
 
 int main()
 {
@@ -1112,17 +1114,19 @@ void render()
 	r.bot = g.yres - 150;
 	r.left = 10;
 	r.center = 0;
-	ggprint8b(&r, 16, c, "A - Start");
+	//ggprint8b(&r, 16, c, "A - Start");
 	ggprint8b(&r, 16, c, "B - Bigfoot");
-	ggprint8b(&r, 16, c, "F - Background");
-	ggprint8b(&r, 16, c, "S - Scores");
-	ggprint8b(&r, 16, c, "T - Sprite Test (use 'p' to iterate)");
-	ggprint8b(&r, 16, c, "U - Umbrella");
-	ggprint8b(&r, 16, c, "R - Rain");
-	ggprint8b(&r, 16, c, "D - Deflection");
-	ggprint8b(&r, 16, c, "N - Sounds");
-	ggprint8b(&r, 16, c, "C - Credits");
-	ggprint8b(&r, 16, c, "Q - Story");
+	//ggprint8b(&r, 16, c, "F - Background");
+	//ggprint8b(&r, 16, c, "S - Scores");
+	//ggprint8b(&r, 16, c, "T - Sprite Test (use 'p' to iterate)");
+	//ggprint8b(&r, 16, c, "U - Umbrella");
+	//ggprint8b(&r, 16, c, "R - Rain");
+	//ggprint8b(&r, 16, c, "D - Deflection");
+	//ggprint8b(&r, 16, c, "N - Sounds");
+	//ggprint8b(&r, 16, c, "C - Credits");
+	//ggprint8b(&r, 16, c, "Q - Story");
+
+	menu();
 
 	if (g.showCredits) {
 		drawCredits();
@@ -1143,6 +1147,7 @@ void render()
 	if (g.startGame){
 		gameScene();	
 	}
+	
 }
 
 void gameScene()
