@@ -11,7 +11,7 @@
  * 
 */ 
 
-
+#include "oscarR.h"
 
 void showOscarCredits (int x, int y, GLuint id)
 { 
