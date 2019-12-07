@@ -24,7 +24,7 @@ typedef struct t_button {
 void menu();
 extern int location;
 void menuArrow(int x, int y, GLuint id);
-
+void showHowTo();
 
 /*
 
