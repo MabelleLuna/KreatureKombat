@@ -211,26 +211,26 @@ void displayHealth (int i, int xpos, int ypos)
 void drawPlayer (int i, int choice, int xpos, int ypos) 	
 {
 	Image img[3] = {
-		"player/d1.png",
-		"player/d2.png",
-		"player/d3.png"
+		"images/player/d1.png",
+		"images/player/d2.png",
+		"images/player/d3.png"
 	};
 	
 	if (choice == 2) {
 		
 		Image img[3] = {
-			"player/c1.png",
-			"player/c2.png",
-			"player/c3.png"
+			"images/player/c1.png",
+			"images/player/c2.png",
+			"images/player/c3.png"
 		};
 		
 	} else if (choice == 3) {
 		
 		Image img[4] = {
-			"player/p.png",
-			"player/p1.png",
-			"player/p2.png",
-			"player/p3.png"
+			"images/player/p.png",
+			"images/player/p1.png",
+			"images/player/p2.png",
+			"images/player/p3.png"
 		};
 	}
 	
