@@ -143,6 +143,7 @@ class Global {
 		bool showScores;
 		bool writeStoryText;
 		bool startGame;
+		bool howTo;
 		bool spriteTest;
 		int storyIndex = 0;
 		int arrowX = 30;
@@ -718,7 +719,7 @@ int checkKeys(XEvent *e)
 					g.showScores ^= 1;
 					break;
 				case (2) :
-					//g.howTo ^= 1;
+					g.howTo ^= 1;
 					break;
 				case(3) :
 					g.startGame ^= 1;
@@ -1235,6 +1236,9 @@ void render()
 
 	if (g.writeStoryText) {
 		writeStoryText("kkstory.txt", g.storyIndex);
+	}
+	if (g.howTo) {
+		showHowTo();
 	}
 
 	if (g.spriteTest) {

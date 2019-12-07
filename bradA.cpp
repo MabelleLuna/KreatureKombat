@@ -214,6 +214,27 @@ void bradShowScore()
 	} 
 }
 
+void showHowTo()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+
+
+	//glClear(GL_COLOR_BUFFER_BIT);
+	Rect b;
+	b.bot = 400;
+	b.left = 100;
+	b.center = 0;
+	ggprint16(&b, 32, 0x00000000, "How To:");
+	b.bot = 360;
+	ggprint16(&b, 32, 0x00000000, "Use the arrow keys to select a move");
+	b.left = 120;
+	ggprint16(&b, 32, 0x00000000, "and hit enter");
+	b.left = 100;
+	b.bot = 260;
+	ggprint16(&b, 32, 0x00000000, "Hint:");
+	ggprint16(&b, 32, 0x00000000, "Some attacks may deal extra damage to certain foes");
+}
+
 // menu(): function to create the game menu
 void menu()
 {
