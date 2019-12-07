@@ -708,16 +708,33 @@ int checkKeys(XEvent *e)
 			g.storyIndex += 1;
 			break;
 		case XK_Left:
-			/*
-			if (g.arrowX == 30 || g.arrowY == 50) {
-				break;
-			} else if (g.arrowX == 30 && g.arrowY == 120) {
+			if (g.arrowX == 30 && g.arrowY == 50) {
+				return 0;
+			}
+			if (g.arrowX == 30 && g.arrowY == 120) {
 				g.arrowX = 30;
 				g.arrowY = 50;
-				printf("moving left");
-				break;
+				g.menuOption = 1;
+				return 0;
 			} 
-			*/
+			if (g.arrowX == 210 && g.arrowY == 100) {
+				g.arrowX = 30;
+				g.arrowY = 120;
+				g.menuOption = 2;
+				return 0;
+			}
+			if (g.arrowX == 390 && g.arrowY == 120) {
+				g.arrowX = 210;
+				g.arrowY = 100;
+				g.menuOption = 3;
+				return 0;
+			}
+			if (g.arrowX == 390 && g.arrowY == 50) {
+				g.arrowX = 390;
+				g.arrowY = 50;
+				g.menuOption = 4;
+				return 0;
+			}
 			break;
 		case XK_Right:
 		if (g.arrowX == 30 && g.arrowY == 50) {
