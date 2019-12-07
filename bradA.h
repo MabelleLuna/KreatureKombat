@@ -22,7 +22,8 @@ typedef struct t_button {
 } Button;
 
 void menu();
-
+extern int location;
+void menuArrow(int x, int y, GLuint id);
 
 
 /*
