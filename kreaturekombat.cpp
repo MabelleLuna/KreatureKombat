@@ -57,7 +57,7 @@ struct timespec timePause;
 double physicsCountdown=0.0;
 double timeSpan=0.0;
 unsigned int upause=0;
-int spriteF, titleF;
+int titleF;
 double timeDiff(struct timespec *start, struct timespec *end) {
 	return (double)(end->tv_sec - start->tv_sec ) +
 		(double)(end->tv_nsec - start->tv_nsec) * oobillion;
@@ -144,7 +144,6 @@ class Global {
 		bool writeStoryText;
 		bool startGame;
 		bool howTo;
-		bool spriteTest;
 		int storyIndex = 0;
 		int arrowX = 30;
 		int arrowY = 50;
@@ -164,7 +163,7 @@ class Global {
 		GLuint scoreTexture;
 		int showBigfoot;
 		int background;
-		int background2;
+		//int background2;
 		int silhouette;
 		int scores;
 		int trees;
@@ -178,7 +177,7 @@ class Global {
 			yres=600;
 			showBigfoot=0;
 			background=1;
-			background2=1;
+			//background2=1;
 			scores=1;
 			silhouette=1;
 			trees=1;
@@ -188,7 +187,6 @@ class Global {
 			showCredits = false;
 			showScores = false;
 			writeStoryText = false;
-			spriteTest = false;
 			startGame = false;
 		}
 		static Global *instance;
@@ -338,8 +336,10 @@ void showOscarCredits(int, int, GLuint);
 void drawCredits();
 void showTitle(int);
 void drawScores();
-void spriteTest(int);
+void drawEnemy(int, int, int, int); //(frame, wid, xpos, ypos)
+void drawPlayer(int, int, int, int); //(frame, wid, xpos, ypos)
 void gameScene();
+void displayHealth(int, int, int); // (hp, xpos, ypos)
 extern void menu();
 extern int nbuttons;
 extern Button button[];
@@ -695,10 +695,6 @@ int checkKeys(XEvent *e)
 			g.showUmbrella ^= 1;
 			break;
 		case XK_p:
-			spriteF++;
-			titleF++;
-			printf("sprite: %i\n", spriteF);
-			if (spriteF == 10) spriteF = 0;
 			break;
 		case XK_r:
 			g.showRain ^= 1;
@@ -851,211 +847,6 @@ Flt VecNormalize(Vec vec)
 	return(len);
 }
 
-void cleanupRaindrops()
-{
-	Raindrop *s;
-	while (rainhead) {
-		s = rainhead->next;
-		free(rainhead);
-		rainhead = s;
-	}
-	rainhead=NULL;
-}
-
-void deleteRain(Raindrop *node)
-{
-	//remove a node from linked list
-	//Log("deleteRain()...\n");
-	if (node->prev == NULL) {
-		if (node->next == NULL) {
-			//Log("only 1 item in list.\n");
-			rainhead = NULL;
-		} else {
-			//Log("at beginning of list.\n");
-			node->next->prev = NULL;
-			rainhead = node->next;
-		}
-	} else {
-		if (node->next == NULL) {
-			//Log("at end of list.\n");
-			node->prev->next = NULL;
-		} else {
-			//Log("in middle of list.\n");
-			node->prev->next = node->next;
-			node->next->prev = node->prev;
-		}
-	}
-	free(node);
-	node = NULL;
-}
-
-void moveBigfoot()
-{
-	//move bigfoot...
-	int addgrav = 1;
-	//Update position
-	bigfoot.pos[0] += bigfoot.vel[0];
-	bigfoot.pos[1] += bigfoot.vel[1];
-	//Check for collision with window edges
-	if ((bigfoot.pos[0] < -140.0 && bigfoot.vel[0] < 0.0) ||
-			(bigfoot.pos[0] >= (float)g.xres+140.0 &&
-			 bigfoot.vel[0] > 0.0))
-	{
-		bigfoot.vel[0] = -bigfoot.vel[0];
-		addgrav = 0;
-	}
-	if ((bigfoot.pos[1] < 150.0 && bigfoot.vel[1] < 0.0) ||
-			(bigfoot.pos[1] >= (float)g.yres && bigfoot.vel[1] > 0.0)) {
-		bigfoot.vel[1] = -bigfoot.vel[1];
-		addgrav = 0;
-	}
-	//Gravity?
-	if (addgrav)
-		bigfoot.vel[1] -= 0.75;
-}
-
-
-void createRaindrop(const int n)
-{
-	//create new rain drops...
-	int i;
-	for (i=0; i<n; i++) {
-		Raindrop *node = (Raindrop *)malloc(sizeof(Raindrop));
-		if (node == NULL) {
-			Log("error allocating node.\n");
-			exit(EXIT_FAILURE);
-		}
-		node->prev = NULL;
-		node->next = NULL;
-		node->sound=0;
-		node->pos[0] = rnd() * (float)g.xres;
-		node->pos[1] = rnd() * 100.0f + (float)g.yres;
-		VecCopy(node->pos, node->lastpos);
-		node->vel[0] = 
-			node->vel[1] = 0.0f;
-		node->color[0] = rnd() * 0.2f + 0.8f;
-		node->color[1] = rnd() * 0.2f + 0.8f;
-		node->color[2] = rnd() * 0.2f + 0.8f;
-		node->color[3] = rnd() * 0.5f + 0.3f; //alpha
-		node->linewidth = random(8)+1;
-		//larger linewidth = faster speed
-		node->maxvel[1] = (float)(node->linewidth*16);
-		node->length = node->maxvel[1] * 0.2f + rnd();
-		//put raindrop into linked list
-		node->next = rainhead;
-		if (rainhead != NULL)
-			rainhead->prev = node;
-		rainhead = node;
-		++totrain;
-	}
-}
-
-void checkRaindrops()
-{
-	if (random(100) < 50) {
-		createRaindrop(ndrops);
-	}
-	//
-	//move rain droplets
-	Raindrop *node = rainhead;
-	while (node) {
-		//force is toward the ground
-		node->vel[1] += gravity;
-		VecCopy(node->pos, node->lastpos);
-		node->pos[0] += node->vel[0] * timeslice;
-		node->pos[1] += node->vel[1] * timeslice;
-		if (fabs(node->vel[1]) > node->maxvel[1])
-			node->vel[1] *= 0.96;
-		node->vel[0] *= 0.999;
-		node = node->next;
-	}
-	//}
-	//
-	//check rain droplets
-int n=0;
-node = rainhead;
-while (node) {
-	n++;
-#ifdef USE_SOUND
-	if (node->pos[1] < 0.0f) {
-		//raindrop hit ground
-		if (!node->sound && play_sounds) {
-			//small chance that a sound will play
-			int r = random(50);
-			if (r==1) {
-				//play sound here...
-
-
-			}
-			//sound plays once per raindrop
-			node->sound=1;
-		}
-	}
-#endif //USE_SOUND
-	//collision detection for raindrop on umbrella
-	if (g.showUmbrella) {
-		if (umbrella.shape == UMBRELLA_FLAT) {
-			if (node->pos[0] >= (umbrella.pos[0] - umbrella.width2) &&
-					node->pos[0] <= (umbrella.pos[0] + umbrella.width2)) {
-				if (node->lastpos[1] > umbrella.lastpos[1] ||
-						node->lastpos[1] > umbrella.pos[1]) {
-					if (node->pos[1] <= umbrella.pos[1] ||
-							node->pos[1] <= umbrella.lastpos[1]) {
-						if (node->linewidth > 1) {
-							Raindrop *savenode = node->next;
-							deleteRain(node);
-							node = savenode;
-							continue;
-						}
-					}
-				}
-			}
-		}
-		if (umbrella.shape == UMBRELLA_ROUND) {
-			float d0 = node->pos[0] - umbrella.pos[0];
-			float d1 = node->pos[1] - umbrella.pos[1];
-			float distance = sqrt((d0*d0)+(d1*d1));
-			//Log("distance: %f  umbrella.radius: %f\n",
-			//							distance,umbrella.radius);
-			if (distance <= umbrella.radius &&
-					node->pos[1] > umbrella.pos[1]) {
-				if (node->linewidth > 1) {
-					if (g.deflection) {
-						//deflect raindrop
-						double dot;
-						Vec v, up = {0,1,0};
-						VecSub(node->pos, umbrella.pos, v);
-						VecNormalize(v);
-						node->pos[0] =
-							umbrella.pos[0] + v[0] * umbrella.radius;
-						node->pos[1] =
-							umbrella.pos[1] + v[1] * umbrella.radius;
-						dot = VecDot(v,up);
-						dot += 1.0;
-						node->vel[0] += v[0] * dot * 1.0;
-						node->vel[1] += v[1] * dot * 1.0;
-					} else {
-						Raindrop *savenode = node->next;
-						deleteRain(node);
-						node = savenode;
-						continue;
-					}
-				}
-			}
-		}
-	}
-	if (node->pos[1] < -20.0f) {
-		//rain drop is below the visible area
-		Raindrop *savenode = node->next;
-		deleteRain(node);
-		node = savenode;
-		continue;
-	}
-	node = node->next;
-}
-if (maxrain < n)
-	maxrain = n;
-	}
 
 void physics()
 {
@@ -1063,7 +854,7 @@ void physics()
 		titleF++;
 		if (titleF == 5) titleF = 0;
 	}
-
+/*
 	if (g.background2) {
 		Rect r;
 		unsigned int c = 0x00ffff44;
@@ -1073,71 +864,20 @@ void physics()
 		ggprint8b(&r, 16, c, "Start");
 
 	}
+*/	
+
 	//if (g.writeStoryText) {
 	//	writeStoryText("testTextFile.txt");
 	//}
 }
 
-void drawUmbrella()
-{
-	//Log("drawUmbrella()...\n");
-	if (umbrella.shape == UMBRELLA_FLAT) {
-		glColor4f(1.0f, 0.2f, 0.2f, 0.5f);
-		glLineWidth(8);
-		glBegin(GL_LINES);
-		glVertex2f(umbrella.pos[0]-umbrella.width2, umbrella.pos[1]);
-		glVertex2f(umbrella.pos[0]+umbrella.width2, umbrella.pos[1]);
-		glEnd();
-		glLineWidth(1);
-	} else {
-		glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
-		glPushMatrix();
-		glTranslatef(umbrella.pos[0],umbrella.pos[1],umbrella.pos[2]);
-		glEnable(GL_ALPHA_TEST);
-		glAlphaFunc(GL_GREATER, 0.0f);
-		glBindTexture(GL_TEXTURE_2D, g.umbrellaTexture);
-		glBegin(GL_QUADS);
-		float w = umbrella.width2;
-		glTexCoord2f(0.0f, 0.0f); glVertex2f(-w,  w);
-		glTexCoord2f(1.0f, 0.0f); glVertex2f( w,  w);
-		glTexCoord2f(1.0f, 1.0f); glVertex2f( w, -w);
-		glTexCoord2f(0.0f, 1.0f); glVertex2f(-w, -w);
-		glEnd();
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glDisable(GL_ALPHA_TEST);
-		glPopMatrix();
-	}
-}
-
-void drawRaindrops()
-{
-	Raindrop *node = rainhead;
-	while (node) {
-		glPushMatrix();
-		glTranslated(node->pos[0],node->pos[1],node->pos[2]);
-		glColor4fv(node->color);
-		glLineWidth(node->linewidth);
-		glBegin(GL_LINES);
-		glVertex2f(0.0f, 0.0f);
-		glVertex2f(0.0f, node->length);
-		glEnd();
-		glPopMatrix();
-		node = node->next;
-	}
-	glLineWidth(1);
-}
-
 void render()
 {
 	Rect r;
-
-	//Clear the screen
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT);
-	//
-	//draw a quad with texture
-	float wid = 120.0f;
 	glColor3f(1.0, 1.0, 1.0);
+	
 	if (g.background) {
 		glBindTexture(GL_TEXTURE_2D, g.backgroundTexture);
 		glBegin(GL_QUADS);
@@ -1147,82 +887,12 @@ void render()
 		glTexCoord2f(1.0f, 1.0f); glVertex2i(g.xres, 0);
 		glEnd();
 		showTitle(titleF);
-
 	}
-	if (g.showBigfoot) {
-		glPushMatrix();
-		glTranslatef(bigfoot.pos[0], bigfoot.pos[1], bigfoot.pos[2]);
-		if (!g.silhouette) {
-			glBindTexture(GL_TEXTURE_2D, g.bigfootTexture);			
-		} else {
-			glBindTexture(GL_TEXTURE_2D, g.silhouetteTexture);
-			glEnable(GL_ALPHA_TEST);
-			glAlphaFunc(GL_GREATER, 0.0f);
-			glColor4ub(255,255,255,255);
-		}
-		glBegin(GL_QUADS);
-		if (bigfoot.vel[0] > 0.0) {
-			glTexCoord2f(0.0f, 1.0f); glVertex2i(-wid,-wid);
-			glTexCoord2f(0.0f, 0.0f); glVertex2i(-wid, wid);
-			glTexCoord2f(1.0f, 0.0f); glVertex2i( wid, wid);
-			glTexCoord2f(1.0f, 1.0f); glVertex2i( wid,-wid);
-		} else {
-			glTexCoord2f(1.0f, 1.0f); glVertex2i(-wid,-wid);
-			glTexCoord2f(1.0f, 0.0f); glVertex2i(-wid, wid);
-			glTexCoord2f(0.0f, 0.0f); glVertex2i( wid, wid);
-			glTexCoord2f(0.0f, 1.0f); glVertex2i( wid,-wid);
-		}
-		glEnd();
-		glPopMatrix();
-		//
-		if (g.trees && g.silhouette) {
-			glBindTexture(GL_TEXTURE_2D, g.forestTransTexture);
-			glBegin(GL_QUADS);
-			glTexCoord2f(0.0f, 1.0f); glVertex2i(0, 0);
-			glTexCoord2f(0.0f, 0.0f); glVertex2i(0, g.yres);
-			glTexCoord2f(1.0f, 0.0f); glVertex2i(g.xres, g.yres);
-			glTexCoord2f(1.0f, 1.0f); glVertex2i(g.xres, 0);
-			glEnd();
-		}
-		glDisable(GL_ALPHA_TEST);
-	}
-
-	glDisable(GL_TEXTURE_2D);
-	//glColor3f(1.0f, 0.0f, 0.0f);
-	//glBegin(GL_QUADS);
-	//	glVertex2i(10,10);
-	//	glVertex2i(10,60);
-	//	glVertex2i(60,60);
-	//	glVertex2i(60,10);
-	//glEnd();
-	//return;
-	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_BLEND);
-	if (g.showRain)
-		drawRaindrops();
-	glDisable(GL_BLEND);
-	glEnable(GL_TEXTURE_2D);
-	//
-	if (g.showUmbrella)
-		drawUmbrella();
-	glBindTexture(GL_TEXTURE_2D, 0);
-	//
-	//
 	unsigned int c = 0x00ffff44;
 	r.bot = g.yres - 150;
 	r.left = 10;
 	r.center = 0;
-	//ggprint8b(&r, 16, c, "A - Start");
 	ggprint8b(&r, 16, c, "B - Bigfoot");
-	//ggprint8b(&r, 16, c, "F - Background");
-	//ggprint8b(&r, 16, c, "S - Scores");
-	//ggprint8b(&r, 16, c, "T - Sprite Test (use 'p' to iterate)");
-	//ggprint8b(&r, 16, c, "U - Umbrella");
-	//ggprint8b(&r, 16, c, "R - Rain");
-	//ggprint8b(&r, 16, c, "D - Deflection");
-	//ggprint8b(&r, 16, c, "N - Sounds");
-	//ggprint8b(&r, 16, c, "C - Credits");
-	//ggprint8b(&r, 16, c, "Q - Story");
 
 	menu();
 	menuArrow(g.arrowX,g.arrowY, g.arrowTexture);
@@ -1241,11 +911,6 @@ void render()
 		showHowTo();
 	}
 
-	if (g.spriteTest) {
-		spriteTest(spriteF);
-
-	}
-
 	if (g.startGame){
 		gameScene();	
 	}
@@ -1256,8 +921,6 @@ void gameScene()
 {
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT);
-	//
-	//draw a quad with texture
 	glColor3f(1.0, 1.0, 1.0);
 	if (g.startGame){
 		glBindTexture(GL_TEXTURE_2D, g.background2Texture);
@@ -1267,7 +930,10 @@ void gameScene()
 		glTexCoord2f(1.0f, 0.0f); glVertex2i(g.xres, g.yres);
 		glTexCoord2f(1.0f, 1.0f); glVertex2i(g.xres, 0);
 		glEnd();
-		spriteTest(spriteF);
+		displayHealth(90, 90, 450);
+		displayHealth(46, 550, 450);
+		drawEnemy(0, 300, 530, 230);
+		drawPlayer(0, 3, 90, 49);
 	}
 	
 }
@@ -1293,6 +959,7 @@ void drawCredits()
 }
 
 void drawScores(){
+	glClearColor(1.0, 1.0, 1.0, 1.0);
 	extern void showScores(int, int, GLuint);
 	void bradShowScore();
 	glClear(GL_COLOR_BUFFER_BIT);
