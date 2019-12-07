@@ -689,7 +689,6 @@ int checkKeys(XEvent *e)
 			  printf("silhouette: %i\n", g.silhouette);
 			  break;
 			  */case XK_t:
-			g.spriteTest ^= 1;
 			break;
 		case XK_u:
 			g.showUmbrella ^= 1;
@@ -1264,7 +1263,9 @@ void gameScene()
 		glTexCoord2f(1.0f, 0.0f); glVertex2i(g.xres, g.yres);
 		glTexCoord2f(1.0f, 1.0f); glVertex2i(g.xres, 0);
 		glEnd();
+		spriteTest(spriteF);
 	}
+	
 }
 
 
