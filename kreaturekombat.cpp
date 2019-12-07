@@ -933,7 +933,7 @@ void gameScene()
 		displayHealth(90, 90, 450);
 		displayHealth(46, 550, 450);
 		drawEnemy(0, 300, 530, 230);
-		drawPlayer(0, 3, 90, 49);
+		drawPlayer(0, 3, 90, 47);
 	}
 	
 }
