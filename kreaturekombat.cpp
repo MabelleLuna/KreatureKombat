@@ -120,7 +120,7 @@ class Image {
 				unlink(ppmname);
 		}
 };
-Image img[9] = {
+Image img[10] = {
 	"./images/bigfoot.png",
 	"./images/streetbackground.png",
 	"./images/forestTrans.png",
@@ -129,7 +129,8 @@ Image img[9] = {
 	"./images/trash.png",
 	"./images/cato.png",
 	"./images/mabelleC.png",
-	"./images/daytimestreet.png"
+	"./images/daytimestreet.png",
+	"./images/right_arrow.png"
 };
 
 //const char* storyText = testTextFile.txt;
@@ -144,6 +145,9 @@ class Global {
 		bool startGame;
 		bool spriteTest;
 		int storyIndex = 0;
+		int arrowX = 30;
+		int arrowY = 50;
+		int menuOption = 1;
 		GLuint textures[5];
 		GLuint bigfootTexture;
 		GLuint silhouetteTexture;
@@ -152,6 +156,7 @@ class Global {
 		GLuint forestTransTexture;
 		GLuint umbrellaTexture;
 		GLuint bradImgTexture;
+		GLuint arrowTexture;
 		GLuint trashTexture;
 		GLuint catTexture;
 		GLuint mabTexture;
@@ -335,6 +340,8 @@ void drawScores();
 void spriteTest(int);
 void gameScene();
 extern void menu();
+extern int nbuttons;
+extern Button button[];
 
 int main()
 {
@@ -460,6 +467,7 @@ void initOpengl(void)
 	glGenTextures(1, &g.catTexture);
 	glGenTextures(1, &g.mabTexture);
 	glGenTextures(1, &g.scoreTexture);
+	glGenTextures(1, &g.arrowTexture);
 	//-------------------------------------------------------------------------
 	//bigfoot
 	//
@@ -481,6 +489,15 @@ void initOpengl(void)
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, w1, h2, 0,
 			GL_RGB, GL_UNSIGNED_BYTE, img[4].data);
+	
+	//menu arrow			
+	int wA = img[9].width;
+	int hA = img[9].height;
+	glBindTexture(GL_TEXTURE_2D, g.arrowTexture);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, 3, wA, hA, 0,
+			GL_RGB, GL_UNSIGNED_BYTE, img[9].data);
 
 	//Logan's img
 	int w2 = img[5].width;
@@ -625,6 +642,7 @@ void checkMouse(XEvent *e)
 int checkKeys(XEvent *e)
 {
 	//keyboard input?
+	int location = 0;
 	static int shift=0;
 	if (e->type != KeyPress && e->type != KeyRelease)
 		return 0;
@@ -690,20 +708,58 @@ int checkKeys(XEvent *e)
 			g.storyIndex += 1;
 			break;
 		case XK_Left:
-			VecCopy(umbrella.pos, umbrella.lastpos);
-			umbrella.pos[0] -= 10.0;
+			/*
+			if (g.arrowX == 30 || g.arrowY == 50) {
+				break;
+			} else if (g.arrowX == 30 && g.arrowY == 120) {
+				g.arrowX = 30;
+				g.arrowY = 50;
+				printf("moving left");
+				break;
+			} 
+			*/
 			break;
 		case XK_Right:
-			VecCopy(umbrella.pos, umbrella.lastpos);
-			umbrella.pos[0] += 10.0;
+		if (g.arrowX == 30 && g.arrowY == 50) {
+			g.arrowX = 30;
+			g.arrowY = 120;
+			g.menuOption = 2;
+			return 0;
+		}
+		if (g.arrowX == 30 && g.arrowY == 120) {
+			g.arrowX = 210;
+			g.arrowY = 100;
+			g.menuOption = 3;
+			return 0;
+		}
+		if (g.arrowX == 210 && g.arrowY == 100) {
+			g.arrowX = 390;
+			g.arrowY = 120;
+			g.menuOption = 4;
+			return 0;
+		}
+		if (g.arrowX == 390 && g.arrowY == 120) {
+			g.arrowX = 390;
+			g.arrowY = 50;
+			g.menuOption = 5;
+			return 0;
+		}
 			break;
 		case XK_Up:
-			VecCopy(umbrella.pos, umbrella.lastpos);
-			umbrella.pos[1] += 10.0;
+			if (location == 0){
+				location = 4;
+			}
+			else{
+				location--;
+			}
 			break;
 		case XK_Down:
-			VecCopy(umbrella.pos, umbrella.lastpos);
-			umbrella.pos[1] -= 10.0;
+			if (location == 4){
+				location = 0;
+			}
+			else{
+				location++;
+			}
 			break;
 		case XK_equal:
 			if (++ndrops > 40)
@@ -1127,6 +1183,7 @@ void render()
 	//ggprint8b(&r, 16, c, "Q - Story");
 
 	menu();
+	menuArrow(g.arrowX,g.arrowY, g.arrowTexture);
 
 	if (g.showCredits) {
 		drawCredits();

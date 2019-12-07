@@ -19,6 +19,8 @@
 #include <stdio.h>
 #include <iostream>
 #include "bradA.h"
+#include "Image.h"
+
 using namespace std;
 
 #define MAXBUTTONS 5
@@ -169,6 +171,21 @@ void showBradCredits(int x, int y, GLuint id)
 	glPopMatrix();
 }
 
+void menuArrow(int x, int y, GLuint id) {
+	float wid = 100.0f;
+	glColor3ub(255, 255, 255);
+	glPushMatrix();
+	glTranslatef((float)x, (float)y, 0);
+	glBindTexture(GL_TEXTURE_2D, id);
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0f, 1.0f); glVertex2i(-wid/2, -wid/2);
+	glTexCoord2f(0.0f, 0.0f); glVertex2i(-wid/2,  wid/2);
+	glTexCoord2f(1.0f, 0.0f); glVertex2i( wid/2,  wid/2);
+	glTexCoord2f(1.0f, 1.0f); glVertex2i( wid/2, -wid/2);
+	glEnd();
+	glPopMatrix();
+}
+
 void bradShowScore()
 {
 	Rect b;
@@ -192,7 +209,9 @@ void bradShowScore()
 // menu(): function to create the game menu
 void menu()
 {
-
+	//glClearColor(1.0, 1.0, 1.0, 1.0);
+	//glClear(GL_COLOR_BUFFER_BIT);
+	glBindTexture(GL_TEXTURE_2D, 0);
 	Rect r;
 	nbuttons=0;
 
@@ -215,10 +234,10 @@ void menu()
 	button[nbuttons].color[0] = 0.0f;
 	button[nbuttons].color[1] = 0.8f;
 	button[nbuttons].color[2] = 0.1f;
-	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
-	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
-	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
-	button[nbuttons].text_color = 0x00ffffff;
+	button[nbuttons].dcolor[0] = button[nbuttons].color[0] / 0.5f;
+	button[nbuttons].dcolor[1] = button[nbuttons].color[1] / 0.5f;
+	button[nbuttons].dcolor[2] = button[nbuttons].color[2] / 0.5f;
+	button[nbuttons].text_color = 0x36C6FF;
 	nbuttons++;
 
 	button[nbuttons].r.width = 140;
@@ -242,7 +261,7 @@ void menu()
 	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
 	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
 	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
-	button[nbuttons].text_color = 0x00ffffff;
+	button[nbuttons].text_color = 0x36C6FF;
 	nbuttons++;
 
 	button[nbuttons].r.width = 140;
@@ -257,7 +276,7 @@ void menu()
 		button[nbuttons].r.right) / 2;
 	button[nbuttons].r.centery = (button[nbuttons].r.bot +
 		button[nbuttons].r.top) / 2;
-	strcpy(button[nbuttons].text, "High Scores");
+	strcpy(button[nbuttons].text, "Scores");
 	button[nbuttons].down = 0;
 	button[nbuttons].click = 0;
 	button[nbuttons].color[0] = 0.0f;
@@ -266,7 +285,7 @@ void menu()
 	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
 	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
 	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
-	button[nbuttons].text_color = 0x00ffffff;
+	button[nbuttons].text_color = 0x36C6FF;
 	nbuttons++;
 	
 	button[nbuttons].r.width = 140;
@@ -286,11 +305,11 @@ void menu()
 	button[nbuttons].click = 0;
 	button[nbuttons].color[0] = 0.0f;
 	button[nbuttons].color[1] = 0.8f;
-	button[nbuttons].color[2] = 0.1f;
+	button[nbuttons].color[2] = 0.9f;
 	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
 	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
 	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
-	button[nbuttons].text_color = 0x00ffffff;
+	button[nbuttons].text_color = 0x36C6FF;
 	nbuttons++;
 
 	button[nbuttons].r.width = 140;
@@ -314,11 +333,11 @@ void menu()
 	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
 	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
 	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
-	button[nbuttons].text_color = 0x00ffffff;
+	button[nbuttons].text_color = 0x36C6FF;
 	nbuttons++;
 
 	//draw the buttons
-	for (int i=0; i< MAXBUTTONS; i++) {
+	for (int i=0; i< MAXBUTTONS; i++) {		
 		glColor3f(1.0f, 1.0f, 0.0f);
 			
 		if (location == i) {
@@ -339,6 +358,8 @@ void menu()
 		r.bot  = button[i].r.centery-8;
 		r.center = 1;
 		
-		ggprint16(&r, 0, button[i].text_color, button[i].text);
+		ggprint16(&r, 16, button[i].text_color, button[i].text);
+
 	}    
 }
+
