@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <iostream>
 #include "bradA.h"
+
 #include "Image.h"
 
 using namespace std;
@@ -174,9 +175,15 @@ void showBradCredits(int x, int y, GLuint id)
 void menuArrow(int x, int y, GLuint id) {
 	float wid = 100.0f;
 	glColor3ub(255, 255, 255);
+	// Enable blending
 	glPushMatrix();
 	glTranslatef((float)x, (float)y, 0);
 	glBindTexture(GL_TEXTURE_2D, id);
+	//THESE THREE LINES FILTER OUT BLACK
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.0f);
+	glColor4ub(255,255,255,255);
+	//
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0f, 1.0f); glVertex2i(-wid/2, -wid/2);
 	glTexCoord2f(0.0f, 0.0f); glVertex2i(-wid/2,  wid/2);
@@ -184,6 +191,7 @@ void menuArrow(int x, int y, GLuint id) {
 	glTexCoord2f(1.0f, 1.0f); glVertex2i( wid/2, -wid/2);
 	glEnd();
 	glPopMatrix();
+
 }
 
 void bradShowScore()

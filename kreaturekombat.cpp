@@ -498,6 +498,12 @@ void initOpengl(void)
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, wA, hA, 0,
 			GL_RGB, GL_UNSIGNED_BYTE, img[9].data);
+							
+	//must build a new set of data...
+	unsigned char *arrowSil = buildAlphaData(&img[9]);	
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, wA, hA, 0,
+			GL_RGBA, GL_UNSIGNED_BYTE, arrowSil);
+	free(arrowSil);
 
 	//Logan's img
 	int w2 = img[5].width;
@@ -705,11 +711,30 @@ int checkKeys(XEvent *e)
 			g.writeStoryText ^= 1;
 			break;
 		case XK_Return:
-			g.storyIndex += 1;
+			if (g.writeStoryText == 1) {
+				g.storyIndex += 1;				
+			}
+			switch (g.menuOption) {
+				case (1) :
+					g.showScores ^= 1;
+					break;
+				case (2) :
+					//g.howTo ^= 1;
+					break;
+				case(3) :
+					g.startGame ^= 1;
+					break;
+				case(4) :
+					g.showCredits ^= 1;
+					break;
+				case(5) :
+					return 1;
+			}
 			break;
 		case XK_Left:
 			if (g.arrowX == 30 && g.arrowY == 50) {
 				return 0;
+				g.menuOption = 1;
 			}
 			if (g.arrowX == 30 && g.arrowY == 120) {
 				g.arrowX = 30;
@@ -731,36 +756,36 @@ int checkKeys(XEvent *e)
 			}
 			if (g.arrowX == 390 && g.arrowY == 50) {
 				g.arrowX = 390;
-				g.arrowY = 50;
+				g.arrowY = 120;
 				g.menuOption = 4;
 				return 0;
 			}
 			break;
 		case XK_Right:
-		if (g.arrowX == 30 && g.arrowY == 50) {
-			g.arrowX = 30;
-			g.arrowY = 120;
-			g.menuOption = 2;
-			return 0;
-		}
-		if (g.arrowX == 30 && g.arrowY == 120) {
-			g.arrowX = 210;
-			g.arrowY = 100;
-			g.menuOption = 3;
-			return 0;
-		}
-		if (g.arrowX == 210 && g.arrowY == 100) {
-			g.arrowX = 390;
-			g.arrowY = 120;
-			g.menuOption = 4;
-			return 0;
-		}
-		if (g.arrowX == 390 && g.arrowY == 120) {
-			g.arrowX = 390;
-			g.arrowY = 50;
-			g.menuOption = 5;
-			return 0;
-		}
+			if (g.arrowX == 30 && g.arrowY == 50) {
+				g.arrowX = 30;
+				g.arrowY = 120;
+				g.menuOption = 2;
+				return 0;
+			}
+			if (g.arrowX == 30 && g.arrowY == 120) {
+				g.arrowX = 210;
+				g.arrowY = 100;
+				g.menuOption = 3;
+				return 0;
+			}
+			if (g.arrowX == 210 && g.arrowY == 100) {
+				g.arrowX = 390;
+				g.arrowY = 120;
+				g.menuOption = 4;
+				return 0;
+			}
+			if (g.arrowX == 390 && g.arrowY == 120) {
+				g.arrowX = 390;
+				g.arrowY = 50;
+				g.menuOption = 5;
+				return 0;
+			}
 			break;
 		case XK_Up:
 			if (location == 0){
