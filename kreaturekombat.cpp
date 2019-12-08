@@ -958,6 +958,10 @@ void selectCharacter()
 {
 	glClearColor(0.6, 0.8, 1.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT);
+	Rect r;
+	r.bot = gl->yres * 0.67f;
+	r.left = gl->xres/2.5;
+	ggprint16(&r, 16, 0x00000000, "Select Your Character");
 	chooseChar();
 	drawEnemy(0, 200, 530, 230);
 }
