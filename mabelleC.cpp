@@ -13,6 +13,11 @@
  */
 
 #include "mabelleC.h"
+#define MAXBUTTONS 3
+
+int cbuttons = 0;
+int clocation = 0;
+Button btn[MAXBUTTONS];
 
 void showMabelleCredits(int x, int y, GLuint id)
 {
@@ -92,4 +97,70 @@ float width, float height, float xpos, float ypos)
 	
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glDisable(GL_ALPHA_TEST);
+}
+
+void chooseChar()
+{
+/*	glClearColor(0.6, 0.8, 1.0, 0.0);
+	glClear(GL_COLOR_BUFFER_BIT);
+	
+	glBindTexture(t, texture);
+	glBegin(GL_QUADS);
+		glTexCoord2f(0.0f, 1.0f); glVertex2i(0, 0);
+		glTexCoord2f(0.0f, 0.0f); glVertex2i(0, yres); 
+		glTexCoord2f(1.0f, 0.0f); glVertex2i(xres, yres);
+		glTexCoord2f(1.0f, 1.0f); glVertex2i(xres, 0);
+	glEnd();
+*/
+	glBindTexture(GL_TEXTURE_2D, 0);
+	Rect r;
+	cbuttons=0;
+	
+	ggprint16(&r, 50, 0xffffffff, "Dog");
+
+	btn[cbuttons].r.width = 140;
+	btn[cbuttons].r.height = 60;
+	btn[cbuttons].r.left = 480;
+	btn[cbuttons].r.bot = 60;
+	btn[cbuttons].r.right =
+		btn[cbuttons].r.left + btn[cbuttons].r.width;
+	btn[cbuttons].r.top = btn[cbuttons].r.bot +
+		btn[cbuttons].r.height;
+	btn[cbuttons].r.centerx = (btn[cbuttons].r.left +
+		btn[cbuttons].r.right) / 2;
+	btn[cbuttons].r.centery = (btn[cbuttons].r.bot +
+		btn[cbuttons].r.top) / 2;
+//	strcpy(btn[cbuttons].text, "Dog");
+	btn[cbuttons].down = 0;
+	btn[cbuttons].click = 0;
+	btn[cbuttons].color[0] = 0.0f;
+	btn[cbuttons].color[1] = 0.8f;
+	btn[cbuttons].color[2] = 0.1f;
+	btn[cbuttons].dcolor[0] = btn[cbuttons].color[0] / 0.5f;
+	btn[cbuttons].dcolor[1] = btn[cbuttons].color[1] / 0.5f;
+	btn[cbuttons].dcolor[2] = btn[cbuttons].color[2] / 0.5f;
+	btn[cbuttons].text_color = 0x0000ff;
+	cbuttons++;
+	for (int i=0; i< MAXBUTTONS; i++) {		
+		glColor3f(1.0f, 1.0f, 0.0f);
+		if (clocation == i) {
+			glColor3fv(btn[i].dcolor);
+		} 
+		else {
+			glColor3fv(btn[i].color);
+		}
+		
+		glBegin(GL_QUADS);
+			glVertex2i(btn[i].r.left,  btn[i].r.bot);
+			glVertex2i(btn[i].r.left,  btn[i].r.top);
+			glVertex2i(btn[i].r.right, btn[i].r.top);
+			glVertex2i(btn[i].r.right, btn[i].r.bot);
+		glEnd();
+		r.left = btn[i].r.centerx;
+		r.bot  = btn[i].r.centery-8;
+		r.center = 1;
+		ggprint16(&r, 16, btn[i].text_color, btn[i].text);
+
+	}    
+
 }

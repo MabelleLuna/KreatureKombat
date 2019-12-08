@@ -143,6 +143,7 @@ class Global {
 		bool showScores;
 		bool writeStoryText;
 		bool startGame;
+		bool chooseCharacter;
 		bool howTo;
 		int storyIndex = 0;
 		int arrowX = 30;
@@ -188,6 +189,7 @@ class Global {
 			showScores = false;
 			writeStoryText = false;
 			startGame = false;
+			chooseCharacter = false;
 		}
 		static Global *instance;
 		static Global *getInstance(){
@@ -339,10 +341,12 @@ void drawScores();
 void drawEnemy(int, int, int, int); //(frame, wid, xpos, ypos)
 void drawPlayer(int, int, int, int); //(frame, wid, xpos, ypos)
 void gameScene();
+void selectCharacter();
 void displayHealth(int, int, int); // (hp, xpos, ypos)
 extern void menu();
 extern int nbuttons;
 extern Button button[];
+extern void chooseChar();
 
 int main()
 {
@@ -815,6 +819,9 @@ int checkKeys(XEvent *e)
 			break;
 		case XK_n:
 			break;
+		case XK_m:
+			g.chooseCharacter ^= 1;
+			break;
 		case XK_w:
 			if (shift) {
 				//shrink the umbrella
@@ -918,7 +925,10 @@ void render()
 	if (g.startGame){
 		writeStoryText("kkstory.txt", g.storyIndex);
 		gameScene();
+	}
 
+	if (g.chooseCharacter){
+		selectCharacter();
 	}
 	
 }
@@ -944,6 +954,13 @@ void gameScene()
 	
 }
 
+void selectCharacter()
+{
+	glClearColor(0.6, 0.8, 1.0, 0.0);
+	glClear(GL_COLOR_BUFFER_BIT);
+	chooseChar();
+	drawEnemy(0, 200, 530, 230);
+}
 
 void drawCredits()
 {
