@@ -139,6 +139,9 @@ void writeStoryText(const char* storyTextFileName, int storyIndex)
 	
 	for(int i = 0; i < storyIndex; i++) {
 		getline(file, str, '\n');
+		if (file.eof()) {
+			break;
+		}
 	}
 
 	getline(file,str);

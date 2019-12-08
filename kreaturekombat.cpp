@@ -708,23 +708,29 @@ int checkKeys(XEvent *e)
 			break;
 		case XK_Return:
 			if (g.writeStoryText == 1) {
-				g.storyIndex += 1;				
+				g.storyIndex += 1;
 			}
-			switch (g.menuOption) {
-				case (1) :
-					g.showScores ^= 1;
-					break;
-				case (2) :
-					g.howTo ^= 1;
-					break;
-				case(3) :
-					g.startGame ^= 1;
-					break;
-				case(4) :
-					g.showCredits ^= 1;
-					break;
-				case(5) :
-					return 1;
+			else {
+				switch (g.menuOption) {
+					case (1) :
+						g.showScores ^= 1;
+						break;
+					case (2) :
+						g.howTo ^= 1;
+						break;
+					case(3) :
+						if (g.startGame == 1) {
+							break;
+						} else {
+							g.startGame = 1;
+						}
+						break;
+					case(4) :
+						g.showCredits ^= 1;
+						break;
+					case(5) :
+						return 1;
+				}
 			}
 			break;
 		case XK_Left:
@@ -866,9 +872,6 @@ void physics()
 	}
 */	
 
-	//if (g.writeStoryText) {
-	//	writeStoryText("testTextFile.txt");
-	//}
 }
 
 void render()
@@ -907,12 +910,15 @@ void render()
 	if (g.writeStoryText) {
 		writeStoryText("kkstory.txt", g.storyIndex);
 	}
+	
 	if (g.howTo) {
 		showHowTo();
 	}
 
 	if (g.startGame){
-		gameScene();	
+		writeStoryText("kkstory.txt", g.storyIndex);
+		gameScene();
+
 	}
 	
 }
