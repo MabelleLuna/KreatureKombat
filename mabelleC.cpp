@@ -116,8 +116,6 @@ void chooseChar()
 	Rect r;
 	cbuttons=0;
 	
-	ggprint16(&r, 50, 0xffffffff, "Dog");
-
 	btn[cbuttons].r.width = 140;
 	btn[cbuttons].r.height = 60;
 	btn[cbuttons].r.left = 480;
@@ -130,7 +128,7 @@ void chooseChar()
 		btn[cbuttons].r.right) / 2;
 	btn[cbuttons].r.centery = (btn[cbuttons].r.bot +
 		btn[cbuttons].r.top) / 2;
-//	strcpy(btn[cbuttons].text, "Dog");
+	strcpy(btn[cbuttons].text, "Dog");
 	btn[cbuttons].down = 0;
 	btn[cbuttons].click = 0;
 	btn[cbuttons].color[0] = 0.0f;
@@ -139,7 +137,7 @@ void chooseChar()
 	btn[cbuttons].dcolor[0] = btn[cbuttons].color[0] / 0.5f;
 	btn[cbuttons].dcolor[1] = btn[cbuttons].color[1] / 0.5f;
 	btn[cbuttons].dcolor[2] = btn[cbuttons].color[2] / 0.5f;
-	btn[cbuttons].text_color = 0x0000ff;
+	btn[cbuttons].text_color = 0xff00ff;
 	cbuttons++;
 	for (int i=0; i< MAXBUTTONS; i++) {		
 		glColor3f(1.0f, 1.0f, 0.0f);
