@@ -258,14 +258,6 @@ void menu()
 	button[nbuttons].r.centery = (button[nbuttons].r.bot +
 		button[nbuttons].r.top) / 2;
 	strcpy(button[nbuttons].text, "Play");
-	button[nbuttons].down = 0;
-	button[nbuttons].click = 0;
-	button[nbuttons].color[0] = 0.0f;
-	button[nbuttons].color[1] = 0.8f;
-	button[nbuttons].color[2] = 0.1f;
-	button[nbuttons].dcolor[0] = button[nbuttons].color[0] / 0.5f;
-	button[nbuttons].dcolor[1] = button[nbuttons].color[1] / 0.5f;
-	button[nbuttons].dcolor[2] = button[nbuttons].color[2] / 0.5f;
 	button[nbuttons].text_color = 0x36C6FF;
 	nbuttons++;
 
@@ -282,14 +274,6 @@ void menu()
 	button[nbuttons].r.centery = (button[nbuttons].r.bot +
 		button[nbuttons].r.top) / 2;
 	strcpy(button[nbuttons].text, "How to play");
-	button[nbuttons].down = 0;
-	button[nbuttons].click = 0;
-	button[nbuttons].color[0] = 0.0f;
-	button[nbuttons].color[1] = 0.8f;
-	button[nbuttons].color[2] = 0.1f;
-	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
-	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
-	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
 	button[nbuttons].text_color = 0x36C6FF;
 	nbuttons++;
 
@@ -305,15 +289,7 @@ void menu()
 		button[nbuttons].r.right) / 2;
 	button[nbuttons].r.centery = (button[nbuttons].r.bot +
 		button[nbuttons].r.top) / 2;
-	strcpy(button[nbuttons].text, "Scores");
-	button[nbuttons].down = 0;
-	button[nbuttons].click = 0;
-	button[nbuttons].color[0] = 0.0f;
-	button[nbuttons].color[1] = 0.8f;
-	button[nbuttons].color[2] = 0.1f;
-	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
-	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
-	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
+	strcpy(button[nbuttons].text, "Scores");	
 	button[nbuttons].text_color = 0x36C6FF;
 	nbuttons++;
 	
@@ -330,14 +306,6 @@ void menu()
 	button[nbuttons].r.centery = (button[nbuttons].r.bot +
 		button[nbuttons].r.top) / 2;
 	strcpy(button[nbuttons].text, "Credits");
-	button[nbuttons].down = 0;
-	button[nbuttons].click = 0;
-	button[nbuttons].color[0] = 0.0f;
-	button[nbuttons].color[1] = 0.8f;
-	button[nbuttons].color[2] = 0.9f;
-	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
-	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
-	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
 	button[nbuttons].text_color = 0x36C6FF;
 	nbuttons++;
 
@@ -354,27 +322,12 @@ void menu()
 	button[nbuttons].r.centery = (button[nbuttons].r.bot +
 		button[nbuttons].r.top) / 2;
 	strcpy(button[nbuttons].text, "Quit");
-	button[nbuttons].down = 0;
-	button[nbuttons].click = 0;
-	button[nbuttons].color[0] = 0.0f;
-	button[nbuttons].color[1] = 0.8f;
-	button[nbuttons].color[2] = 0.1f;
-	button[nbuttons].dcolor[0] = button[nbuttons].color[0] * 0.5f;
-	button[nbuttons].dcolor[1] = button[nbuttons].color[1] * 0.5f;
-	button[nbuttons].dcolor[2] = button[nbuttons].color[2] * 0.5f;
 	button[nbuttons].text_color = 0x36C6FF;
 	nbuttons++;
 
 	//draw the buttons
 	for (int i=0; i< MAXBUTTONS; i++) {		
-		glColor3f(1.0f, 1.0f, 0.0f);
-			
-		if (location == i) {
-			glColor3fv(button[i].dcolor);
-		} 
-		else {
-			glColor3fv(button[i].color);
-		}
+		//glColor3f(1.0f, 1.0f, 0.0f);			
 		
 		glBegin(GL_QUADS);
 			glVertex2i(button[i].r.left,  button[i].r.bot);
