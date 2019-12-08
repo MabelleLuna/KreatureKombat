@@ -188,3 +188,70 @@ void chooseChar()
 	}    
 
 }
+
+void drawPlayer1(int i, int wid, int xpos, int ypos) 	
+{
+	Image sprite[1] = {
+		"images/doge/d2.png",
+	};
+
+	GLuint texture;
+	unsigned char *sData;
+	int w = sprite[i].width;
+	int h = sprite[i].height;
+	glGenTextures(1, &texture);
+	glColor3f(1.0, 1.0, 1.0);
+	glEnable(GL_ALPHA_TEST);
+	glPushMatrix();
+	glTranslatef(xpos, ypos, 0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+	sData = bAD(&sprite[i]);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, 
+			GL_UNSIGNED_BYTE, sData);
+	free(sData);
+	glBegin(GL_QUADS);
+	glTexCoord2f(1.0f, 1.0f); glVertex2i(-wid/2, -wid/2);
+	glTexCoord2f(1.0f, 0.0f); glVertex2i(-wid/2,  wid/2);
+	glTexCoord2f(0.0f, 0.0f); glVertex2i( wid/2,  wid/2);
+	glTexCoord2f(0.0f, 1.0f); glVertex2i( wid/2, -wid/2);
+	glEnd();
+	glPopMatrix();
+	glDisable(GL_ALPHA_TEST);
+}
+
+
+void drawPlayer2(int i, int wid, int xpos, int ypos) 	
+{
+	Image sprite[1] = {
+		"images/chom/cs4.png",
+	};
+
+	GLuint texture;
+	unsigned char *sData;
+	int w = sprite[i].width;
+	int h = sprite[i].height;
+	glGenTextures(1, &texture);
+	glColor3f(1.0, 1.0, 1.0);
+	glEnable(GL_ALPHA_TEST);
+	glPushMatrix();
+	glTranslatef(xpos, ypos, 0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+	sData = bAD(&sprite[i]);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, 
+			GL_UNSIGNED_BYTE, sData);
+	free(sData);
+	glBegin(GL_QUADS);
+	glTexCoord2f(1.0f, 1.0f); glVertex2i(-wid/2, -wid/2);
+	glTexCoord2f(1.0f, 0.0f); glVertex2i(-wid/2,  wid/2);
+	glTexCoord2f(0.0f, 0.0f); glVertex2i( wid/2,  wid/2);
+	glTexCoord2f(0.0f, 1.0f); glVertex2i( wid/2, -wid/2);
+	glEnd();
+	glPopMatrix();
+	glDisable(GL_ALPHA_TEST);
+}
+
+

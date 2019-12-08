@@ -7,6 +7,9 @@
 #include "fonts.h"
 #include "Image.h"
 
+extern unsigned char *bAD(Image *img);
+void drawPlayer1(int, int, int, int);
+void drawPlayer2(int, int, int, int);
 void drawSprite(GLuint, Image&, float, float, float, float);
 
 typedef struct t_button {

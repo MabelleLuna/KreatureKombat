@@ -347,6 +347,8 @@ extern void menu();
 extern int nbuttons;
 extern Button button[];
 extern void chooseChar();
+extern void drawPlayer1(int, int, int, int);
+extern void drawPlayer2(int, int, int, int);
 
 int main()
 {
@@ -867,18 +869,6 @@ void physics()
 		titleF++;
 		if (titleF == 5) titleF = 0;
 	}
-/*
-	if (g.background2) {
-		Rect r;
-		unsigned int c = 0x00ffff44;
-		r.bot = g.yres - 150;
-		r.left = 10;
-		r.center = 0;
-		ggprint8b(&r, 16, c, "Start");
-
-	}
-*/	
-
 }
 
 void render()
@@ -963,7 +953,8 @@ void selectCharacter()
 	r.left = gl->xres/2.5;
 	ggprint16(&r, 16, 0x00000000, "Select Your Character");
 	chooseChar();
-	drawEnemy(0, 200, 440, 230);
+	drawPlayer1(0, 150, 190, 235);
+	drawPlayer2(0, 200, 440, 260);
 }
 
 void drawCredits()
