@@ -963,7 +963,7 @@ void selectCharacter()
 	r.left = gl->xres/2.5;
 	ggprint16(&r, 16, 0x00000000, "Select Your Character");
 	chooseChar();
-	drawEnemy(0, 200, 530, 230);
+	drawEnemy(0, 200, 440, 230);
 }
 
 void drawCredits()

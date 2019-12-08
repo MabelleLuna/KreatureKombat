@@ -115,10 +115,11 @@ void chooseChar()
 	glBindTexture(GL_TEXTURE_2D, 0);
 	Rect r;
 	cbuttons=0;
-	
+
+
 	btn[cbuttons].r.width = 140;
 	btn[cbuttons].r.height = 60;
-	btn[cbuttons].r.left = 480;
+	btn[cbuttons].r.left = 120;
 	btn[cbuttons].r.bot = 60;
 	btn[cbuttons].r.right =
 		btn[cbuttons].r.left + btn[cbuttons].r.width;
@@ -128,7 +129,7 @@ void chooseChar()
 		btn[cbuttons].r.right) / 2;
 	btn[cbuttons].r.centery = (btn[cbuttons].r.bot +
 		btn[cbuttons].r.top) / 2;
-	strcpy(btn[cbuttons].text, "Dog");
+	strcpy(btn[cbuttons].text, "Doggo 1");
 	btn[cbuttons].down = 0;
 	btn[cbuttons].click = 0;
 	btn[cbuttons].color[0] = 0.0f;
@@ -137,7 +138,32 @@ void chooseChar()
 	btn[cbuttons].dcolor[0] = btn[cbuttons].color[0] / 0.5f;
 	btn[cbuttons].dcolor[1] = btn[cbuttons].color[1] / 0.5f;
 	btn[cbuttons].dcolor[2] = btn[cbuttons].color[2] / 0.5f;
-	btn[cbuttons].text_color = 0xff00ff;
+	btn[cbuttons].text_color = 0xf000ff;
+	cbuttons++;
+
+
+	btn[cbuttons].r.width = 140;
+	btn[cbuttons].r.height = 60;
+	btn[cbuttons].r.left = 380;
+	btn[cbuttons].r.bot = 60;
+	btn[cbuttons].r.right =
+		btn[cbuttons].r.left + btn[cbuttons].r.width;
+	btn[cbuttons].r.top = btn[cbuttons].r.bot +
+		btn[cbuttons].r.height;
+	btn[cbuttons].r.centerx = (btn[cbuttons].r.left +
+		btn[cbuttons].r.right) / 2;
+	btn[cbuttons].r.centery = (btn[cbuttons].r.bot +
+		btn[cbuttons].r.top) / 2;
+	strcpy(btn[cbuttons].text, "Doggo 2");
+	btn[cbuttons].down = 0;
+	btn[cbuttons].click = 0;
+	btn[cbuttons].color[0] = 0.0f;
+	btn[cbuttons].color[1] = 0.8f;
+	btn[cbuttons].color[2] = 0.1f;
+	btn[cbuttons].dcolor[0] = btn[cbuttons].color[0] / 0.5f;
+	btn[cbuttons].dcolor[1] = btn[cbuttons].color[1] / 0.5f;
+	btn[cbuttons].dcolor[2] = btn[cbuttons].color[2] / 0.5f;
+	btn[cbuttons].text_color = 0xf000ff;
 	cbuttons++;
 	for (int i=0; i< MAXBUTTONS; i++) {		
 		glColor3f(1.0f, 1.0f, 0.0f);
