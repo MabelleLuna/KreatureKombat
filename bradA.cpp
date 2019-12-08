@@ -7,20 +7,9 @@
 // 4 Steps of Debugging
 // Identify, Isolate, Fix, Review
 
-#include <math.h>
-#include <X11/Xlib.h>
-#include <X11/keysym.h>
-#include <GL/glx.h>
-#include "log.h"
-#include "fonts.h"
-#include <fstream>
-#include <string>
-#include <string.h>
-#include <stdio.h>
-#include <iostream>
-#include "bradA.h"
 
-#include "Image.h"
+#include "bradA.h"
+#include <string.h>
 
 using namespace std;
 
@@ -138,8 +127,9 @@ void writeStoryText(const char* storyTextFileName, int storyIndex)
 	string file_contents;
 	
 	for(int i = 0; i < storyIndex; i++) {
-		getline(file, str, '\n');
-		if (file.eof()) {
+		getline(file, str);
+		if (!getline(file, str)) {
+			glEnd();
 			break;
 		}
 	}
@@ -175,7 +165,8 @@ void showBradCredits(int x, int y, GLuint id)
 	glPopMatrix();
 }
 
-void menuArrow(int x, int y, GLuint id) {
+void menuArrow(int x, int y, GLuint id) 
+{
 	float wid = 100.0f;
 	glColor3ub(255, 255, 255);
 	// Enable blending
@@ -330,6 +321,98 @@ void menu()
 
 	//draw the buttons
 	for (int i=0; i< MAXBUTTONS; i++) {		
+		//glColor3f(1.0f, 1.0f, 0.0f);			
+		
+		glBegin(GL_QUADS);
+			glVertex2i(button[i].r.left,  button[i].r.bot);
+			glVertex2i(button[i].r.left,  button[i].r.top);
+			glVertex2i(button[i].r.right, button[i].r.top);
+			glVertex2i(button[i].r.right, button[i].r.bot);
+		glEnd();
+
+		r.left = button[i].r.centerx;
+		r.bot  = button[i].r.centery-8;
+		r.center = 1;
+		
+		ggprint16(&r, 16, button[i].text_color, button[i].text);
+
+	}    
+}
+
+void showMovelist()
+{
+	//glClearColor(1.0, 1.0, 1.0, 1.0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	Rect r;
+	nbuttons=0;
+
+	//size, position, & color
+	button[nbuttons].r.width = 140;
+	button[nbuttons].r.height = 60;
+	button[nbuttons].r.left = 170;
+	button[nbuttons].r.bot = 100;
+	button[nbuttons].r.right =
+		button[nbuttons].r.left + button[nbuttons].r.width;
+	button[nbuttons].r.top = button[nbuttons].r.bot +
+		button[nbuttons].r.height;
+	button[nbuttons].r.centerx = (button[nbuttons].r.left +
+		button[nbuttons].r.right) / 2;
+	button[nbuttons].r.centery = (button[nbuttons].r.bot +
+		button[nbuttons].r.top) / 2;
+	strcpy(button[nbuttons].text, "Tackle");
+	button[nbuttons].text_color = 0xFFFFFFFF;
+	nbuttons++;
+
+	button[nbuttons].r.width = 140;
+	button[nbuttons].r.height = 60;
+	button[nbuttons].r.left = 170;
+	button[nbuttons].r.bot = 20;
+	button[nbuttons].r.right =
+		button[nbuttons].r.left + button[nbuttons].r.width;
+	button[nbuttons].r.top = button[nbuttons].r.bot +
+		button[nbuttons].r.height;
+	button[nbuttons].r.centerx = (button[nbuttons].r.left +
+		button[nbuttons].r.right) / 2;
+	button[nbuttons].r.centery = (button[nbuttons].r.bot +
+		button[nbuttons].r.top) / 2;
+	strcpy(button[nbuttons].text, "Scratch");	
+	button[nbuttons].text_color = 0xFFFFFFFF;
+	nbuttons++;
+	
+	button[nbuttons].r.width = 140;
+	button[nbuttons].r.height = 60;
+	button[nbuttons].r.left = 315;
+	button[nbuttons].r.bot = 100;
+	button[nbuttons].r.right =
+		button[nbuttons].r.left + button[nbuttons].r.width;
+	button[nbuttons].r.top = button[nbuttons].r.bot +
+		button[nbuttons].r.height;
+	button[nbuttons].r.centerx = (button[nbuttons].r.left +
+		button[nbuttons].r.right) / 2;
+	button[nbuttons].r.centery = (button[nbuttons].r.bot +
+		button[nbuttons].r.top) / 2;
+	strcpy(button[nbuttons].text, "Bite");
+	button[nbuttons].text_color = 0xFFFFFFFF;
+	nbuttons++;
+
+	button[nbuttons].r.width = 140;
+	button[nbuttons].r.height = 60;
+	button[nbuttons].r.left = 315;
+	button[nbuttons].r.bot = 20;
+	button[nbuttons].r.right =
+		button[nbuttons].r.left + button[nbuttons].r.width;
+	button[nbuttons].r.top = button[nbuttons].r.bot +
+		button[nbuttons].r.height;
+	button[nbuttons].r.centerx = (button[nbuttons].r.left +
+		button[nbuttons].r.right) / 2;
+	button[nbuttons].r.centery = (button[nbuttons].r.bot +
+		button[nbuttons].r.top) / 2;
+	strcpy(button[nbuttons].text, "Rake");
+	button[nbuttons].text_color = 0xFFFFFFFF;
+	nbuttons++;
+
+	//draw the boxes
+	for (int i=0; i< 4; i++) {		
 		//glColor3f(1.0f, 1.0f, 0.0f);			
 		
 		glBegin(GL_QUADS);
