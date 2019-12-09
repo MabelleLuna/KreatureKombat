@@ -65,7 +65,7 @@ void showScores(int x, int y, GLuint id)
 
 
 void drawSprite(GLuint texture, Image &sprite, 
-float width, float height, float xpos, float ypos)
+		float width, float height, float xpos, float ypos)
 {
 	glPushMatrix();
 	glColor3f(1.0, 1.0, 1.0);
@@ -79,9 +79,9 @@ float width, float height, float xpos, float ypos)
 	float ty = (float) iy / sprite.rows;
 	float swidth = (float) 1.0 / sprite.columns;
 	float sheight = (float) 1.0 / sprite.rows;
-	
+
 	if (sprite.frame >= sprite.columns) { iy = 1; }
-	
+
 	glColor3f(1.0, 1.0, 1.0);
 	glBegin(GL_QUADS);
 	glTexCoord2f(tx, ty + sheight);
@@ -94,24 +94,13 @@ float width, float height, float xpos, float ypos)
 	glVertex2i(xpos + width, ypos - height);
 	glEnd();
 	glPopMatrix();
-	
+
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glDisable(GL_ALPHA_TEST);
 }
 
 void chooseChar()
 {
-/*	glClearColor(0.6, 0.8, 1.0, 0.0);
-	glClear(GL_COLOR_BUFFER_BIT);
-	
-	glBindTexture(t, texture);
-	glBegin(GL_QUADS);
-		glTexCoord2f(0.0f, 1.0f); glVertex2i(0, 0);
-		glTexCoord2f(0.0f, 0.0f); glVertex2i(0, yres); 
-		glTexCoord2f(1.0f, 0.0f); glVertex2i(xres, yres);
-		glTexCoord2f(1.0f, 1.0f); glVertex2i(xres, 0);
-	glEnd();
-*/
 	glBindTexture(GL_TEXTURE_2D, 0);
 	Rect r;
 	cbuttons=0;
@@ -126,9 +115,9 @@ void chooseChar()
 	btn[cbuttons].r.top = btn[cbuttons].r.bot +
 		btn[cbuttons].r.height;
 	btn[cbuttons].r.centerx = (btn[cbuttons].r.left +
-		btn[cbuttons].r.right) / 2;
+			btn[cbuttons].r.right) / 2;
 	btn[cbuttons].r.centery = (btn[cbuttons].r.bot +
-		btn[cbuttons].r.top) / 2;
+			btn[cbuttons].r.top) / 2;
 	strcpy(btn[cbuttons].text, "Doggo 1");
 	btn[cbuttons].down = 0;
 	btn[cbuttons].click = 0;
@@ -151,9 +140,9 @@ void chooseChar()
 	btn[cbuttons].r.top = btn[cbuttons].r.bot +
 		btn[cbuttons].r.height;
 	btn[cbuttons].r.centerx = (btn[cbuttons].r.left +
-		btn[cbuttons].r.right) / 2;
+			btn[cbuttons].r.right) / 2;
 	btn[cbuttons].r.centery = (btn[cbuttons].r.bot +
-		btn[cbuttons].r.top) / 2;
+			btn[cbuttons].r.top) / 2;
 	strcpy(btn[cbuttons].text, "Doggo 2");
 	btn[cbuttons].down = 0;
 	btn[cbuttons].click = 0;
@@ -173,12 +162,12 @@ void chooseChar()
 		else {
 			glColor3fv(btn[i].color);
 		}
-		
+
 		glBegin(GL_QUADS);
-			glVertex2i(btn[i].r.left,  btn[i].r.bot);
-			glVertex2i(btn[i].r.left,  btn[i].r.top);
-			glVertex2i(btn[i].r.right, btn[i].r.top);
-			glVertex2i(btn[i].r.right, btn[i].r.bot);
+		glVertex2i(btn[i].r.left,  btn[i].r.bot);
+		glVertex2i(btn[i].r.left,  btn[i].r.top);
+		glVertex2i(btn[i].r.right, btn[i].r.top);
+		glVertex2i(btn[i].r.right, btn[i].r.bot);
 		glEnd();
 		r.left = btn[i].r.centerx;
 		r.bot  = btn[i].r.centery-8;
