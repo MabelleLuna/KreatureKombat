@@ -150,7 +150,10 @@ class Global {
 		int arrowX = 30;
 		int arrowY = 50;
 		int arrowX1 = 110;
+		int moveArrowX = 160;
+		int moveArrowY = 50;
 		int menuOption = 1;
+		int move = 1;
 		GLuint textures[5];
 		GLuint bigfootTexture;
 		GLuint silhouetteTexture;
@@ -776,6 +779,23 @@ int checkKeys(XEvent *e)
 					g.menuOption = 4;
 					return 0;
 				}
+			}
+			if (g.startGame) {
+				if (g.moveArrowX == 310 && g.moveArrowY == 50) {
+					g.moveArrowY = 130;
+					g.move = 3;
+					return 0;
+				}
+				if (g.moveArrowX == 310 && g.moveArrowY == 130) {
+					g.moveArrowX = 160;
+					g.move = 2;
+					return 0;
+				} 
+				if (g.moveArrowX == 160 && g.moveArrowY == 130) {
+					g.moveArrowY = 50;
+					g.move = 1;
+					return 0;
+				}
 			}			
 			break;
 		case XK_Right:
@@ -805,6 +825,23 @@ int checkKeys(XEvent *e)
 					g.arrowX = 390;
 					g.arrowY = 50;
 					g.menuOption = 5;
+					return 0;
+				}
+			}
+			if (g.startGame) {
+				if (g.moveArrowX == 160 && g.moveArrowY == 50) {
+					g.moveArrowY = 130;
+					g.move = 2;
+					return 0;
+				}
+				if (g.moveArrowX == 160 && g.moveArrowY == 130) {
+					g.moveArrowX = 310;
+					g.move = 3;
+					return 0;
+				} 
+				if (g.moveArrowX == 310 && g.moveArrowY == 130) {
+					g.moveArrowY = 50;
+					g.move = 4;
 					return 0;
 				}
 			}
@@ -883,6 +920,9 @@ void physics()
 		titleF++;
 		if (titleF == 5) titleF = 0;
 	}
+	//if (g.startGame) {
+	//	gameScene();
+	//}
 }
 
 void render()
@@ -961,6 +1001,7 @@ void gameScene()
 		drawEnemy(0, 300, 530, 230);
 		drawPlayer(0, 3, 90, 47);
 		showMovelist();
+		menuArrow(g.moveArrowX,g.moveArrowY,g.arrowTexture);
 	}
 	
 	
