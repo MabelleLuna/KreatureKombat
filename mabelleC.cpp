@@ -118,7 +118,7 @@ void chooseChar()
 			btn[cbuttons].r.right) / 2;
 	btn[cbuttons].r.centery = (btn[cbuttons].r.bot +
 			btn[cbuttons].r.top) / 2;
-	strcpy(btn[cbuttons].text, "Doggo 1");
+	strcpy(btn[cbuttons].text, "Max");
 	btn[cbuttons].down = 0;
 	btn[cbuttons].click = 0;
 	btn[cbuttons].color[0] = 0.0f;
@@ -143,7 +143,7 @@ void chooseChar()
 			btn[cbuttons].r.right) / 2;
 	btn[cbuttons].r.centery = (btn[cbuttons].r.bot +
 			btn[cbuttons].r.top) / 2;
-	strcpy(btn[cbuttons].text, "Doggo 2");
+	strcpy(btn[cbuttons].text, "Pugsley");
 	btn[cbuttons].down = 0;
 	btn[cbuttons].click = 0;
 	btn[cbuttons].color[0] = 0.0f;
