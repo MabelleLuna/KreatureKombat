@@ -9,6 +9,10 @@
 #include "fonts.h"
 #include <fstream>
 #include <string>
+#include <string.h>
+#include <stdio.h>
+#include <iostream>
+
 
 typedef struct t_button {
 	Rect r;
@@ -20,6 +24,7 @@ void menu();
 extern int location;
 void menuArrow(int x, int y, GLuint id);
 void showHowTo();
+void showMovelist();
 
 /*
 

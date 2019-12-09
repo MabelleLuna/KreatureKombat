@@ -145,10 +145,15 @@ class Global {
 		bool startGame;
 		bool chooseCharacter;
 		bool howTo;
+		bool showMenu = 1;
 		int storyIndex = 0;
 		int arrowX = 30;
 		int arrowY = 50;
+		int arrowX1 = 110;
+		int moveArrowX = 160;
+		int moveArrowY = 50;
 		int menuOption = 1;
+		int move = 1;
 		GLuint textures[5];
 		GLuint bigfootTexture;
 		GLuint silhouetteTexture;
@@ -655,7 +660,6 @@ void checkMouse(XEvent *e)
 int checkKeys(XEvent *e)
 {
 	//keyboard input?
-	int location = 0;
 	static int shift=0;
 	if (e->type != KeyPress && e->type != KeyRelease)
 		return 0;
@@ -712,11 +716,14 @@ int checkKeys(XEvent *e)
 			//writeStoryText("The story begins....");
 			g.writeStoryText ^= 1;
 			break;
-		case XK_Return:
-			if (g.writeStoryText == 1) {
+		case XK_space:
+			if (g.writeStoryText) {
 				g.storyIndex += 1;
 			}
-			else {
+			break;
+		case XK_Return:
+			
+			//else {
 				switch (g.menuOption) {
 					case (1) :
 						g.showScores ^= 1;
@@ -737,62 +744,106 @@ int checkKeys(XEvent *e)
 					case(5) :
 						return 1;
 				}
-			}
+			//}
 			break;
 		case XK_Left:
-			if (g.arrowX == 30 && g.arrowY == 50) {
-				return 0;
-				g.menuOption = 1;
+			if (g.chooseCharacter) {
+				g.arrowX1 = 110;
 			}
-			if (g.arrowX == 30 && g.arrowY == 120) {
-				g.arrowX = 30;
-				g.arrowY = 50;
-				g.menuOption = 1;
-				return 0;
-			} 
-			if (g.arrowX == 210 && g.arrowY == 100) {
-				g.arrowX = 30;
-				g.arrowY = 120;
-				g.menuOption = 2;
-				return 0;
+			if (g.showMenu) {
+				if (g.arrowX == 30 && g.arrowY == 50) {
+					return 0;
+					g.menuOption = 1;
+				}
+				if (g.arrowX == 30 && g.arrowY == 120) {
+					g.arrowX = 30;
+					g.arrowY = 50;
+					g.menuOption = 1;
+					return 0;
+				} 
+				if (g.arrowX == 210 && g.arrowY == 100) {
+					g.arrowX = 30;
+					g.arrowY = 120;
+					g.menuOption = 2;
+					return 0;
+				}
+				if (g.arrowX == 390 && g.arrowY == 120) {
+					g.arrowX = 210;
+					g.arrowY = 100;
+					g.menuOption = 3;
+					return 0;
+				}
+				if (g.arrowX == 390 && g.arrowY == 50) {
+					g.arrowX = 390;
+					g.arrowY = 120;
+					g.menuOption = 4;
+					return 0;
+				}
 			}
-			if (g.arrowX == 390 && g.arrowY == 120) {
-				g.arrowX = 210;
-				g.arrowY = 100;
-				g.menuOption = 3;
-				return 0;
-			}
-			if (g.arrowX == 390 && g.arrowY == 50) {
-				g.arrowX = 390;
-				g.arrowY = 120;
-				g.menuOption = 4;
-				return 0;
-			}
+			if (g.startGame) {
+				if (g.moveArrowX == 310 && g.moveArrowY == 50) {
+					g.moveArrowY = 130;
+					g.move = 3;
+					return 0;
+				}
+				if (g.moveArrowX == 310 && g.moveArrowY == 130) {
+					g.moveArrowX = 160;
+					g.move = 2;
+					return 0;
+				} 
+				if (g.moveArrowX == 160 && g.moveArrowY == 130) {
+					g.moveArrowY = 50;
+					g.move = 1;
+					return 0;
+				}
+			}			
 			break;
 		case XK_Right:
-			if (g.arrowX == 30 && g.arrowY == 50) {
-				g.arrowX = 30;
-				g.arrowY = 120;
-				g.menuOption = 2;
-				return 0;
+			if (g.chooseCharacter) {
+				g.arrowX1 = 370;
 			}
-			if (g.arrowX == 30 && g.arrowY == 120) {
-				g.arrowX = 210;
-				g.arrowY = 100;
-				g.menuOption = 3;
-				return 0;
+			if (g.showMenu) {
+				if (g.arrowX == 30 && g.arrowY == 50) {
+					g.arrowX = 30;
+					g.arrowY = 120;
+					g.menuOption = 2;
+					return 0;
+				}
+				if (g.arrowX == 30 && g.arrowY == 120) {
+					g.arrowX = 210;
+					g.arrowY = 100;
+					g.menuOption = 3;
+					return 0;
+				}
+				if (g.arrowX == 210 && g.arrowY == 100) {
+					g.arrowX = 390;
+					g.arrowY = 120;
+					g.menuOption = 4;
+					return 0;
+				}
+				if (g.arrowX == 390 && g.arrowY == 120) {
+					g.arrowX = 390;
+					g.arrowY = 50;
+					g.menuOption = 5;
+					return 0;
+				}
 			}
-			if (g.arrowX == 210 && g.arrowY == 100) {
-				g.arrowX = 390;
-				g.arrowY = 120;
-				g.menuOption = 4;
-				return 0;
-			}
-			if (g.arrowX == 390 && g.arrowY == 120) {
-				g.arrowX = 390;
-				g.arrowY = 50;
-				g.menuOption = 5;
-				return 0;
+			if (g.startGame) {
+				if (g.moveArrowX == 160 && g.moveArrowY == 50) {
+					g.moveArrowY = 130;
+					g.move = 2;
+					return 0;
+				}
+				if (g.moveArrowX == 160 && g.moveArrowY == 130) {
+					g.moveArrowX = 310;
+					g.move = 3;
+					return 0;
+				} 
+				if (g.moveArrowX == 310 && g.moveArrowY == 130) {
+					g.moveArrowY = 50;
+					g.move = 4;
+					return 0;
+				}
 			}
 			break;
 		case XK_Up:
@@ -869,6 +920,9 @@ void physics()
 		titleF++;
 		if (titleF == 5) titleF = 0;
 	}
+	//if (g.startGame) {
+	//	gameScene();
+	//}
 }
 
 void render()
@@ -894,12 +948,16 @@ void render()
 	r.center = 0;
 	ggprint8b(&r, 16, c, "B - Bigfoot");
 
-	menu();
-	menuArrow(g.arrowX,g.arrowY, g.arrowTexture);
+	if (g.showMenu) {
+		menu();
+		menuArrow(g.arrowX,g.arrowY, g.arrowTexture);
+	}
+	
 
 	if (g.showCredits) {
 		drawCredits();
 	}
+
 	if (g.showScores) {
 		drawScores();
 	}
@@ -912,13 +970,15 @@ void render()
 		showHowTo();
 	}
 
-	if (g.startGame){
-		writeStoryText("kkstory.txt", g.storyIndex);
+	if (g.startGame) {		
+		g.showMenu = 0;
 		gameScene();
+		//writeStoryText("kkstory.txt", g.storyIndex);
 	}
 
-	if (g.chooseCharacter){
-		selectCharacter();
+	if (g.chooseCharacter) {
+		g.showMenu = 0;
+		selectCharacter();	
 	}
 	
 }
@@ -940,7 +1000,10 @@ void gameScene()
 		displayHealth(46, 550, 450);
 		drawEnemy(0, 300, 530, 230);
 		drawPlayer(0, 3, 90, 47);
+		showMovelist();
+		menuArrow(g.moveArrowX,g.moveArrowY,g.arrowTexture);
 	}
+	
 	
 }
 
@@ -955,6 +1018,7 @@ void selectCharacter()
 	chooseChar();
 	drawPlayer1(0, 150, 190, 235);
 	drawPlayer2(0, 200, 440, 260);
+	menuArrow(g.arrowX1,90,g.arrowTexture);
 }
 
 void drawCredits()
@@ -976,7 +1040,8 @@ void drawCredits()
 	showMabelleCredits(400,90,g.mabTexture);
 }
 
-void drawScores(){
+void drawScores()
+{
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 	extern void showScores(int, int, GLuint);
 	void bradShowScore();
